@@ -1,0 +1,48 @@
+name: "DDEV add-on test init"
+author: "Julien Loizelet"
+description: "A Github Action to initialize DDEV add-on tests"
+
+inputs:
+
+  ddev_version:
+    type: string
+    required: false
+    default: "stable"
+    description: "DDEV Version to use"
+
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: Homebrew/actions/setup-homebrew@master
+
+    - name: Environment setup
+      shell: bash
+      run: |
+        brew install bats-core mkcert
+        mkcert -install
+
+    - name: Use ddev stable
+      shell: bash
+      if: inputs.ddev_version == 'stable'
+      run: brew install ddev/ddev/ddev
+
+    - name: Use ddev edge
+      shell: bash
+      if: inputs.ddev_version == 'edge'
+      run: brew install ddev/ddev-edge/ddev
+
+    - name: Use ddev HEAD
+      shell: bash
+      if: inputs.ddev_version == 'HEAD'
+      run: brew install --HEAD ddev/ddev/ddev
+
+    - name: Download docker images
+      shell: bash
+      run: mkdir junk && pushd junk && ddev config --auto && ddev debug download-images >/dev/null
+
+
+branding:
+  icon: "code"
+  color: "green"

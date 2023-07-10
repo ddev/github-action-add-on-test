@@ -1,0 +1,50 @@
+name: Add-on simple tests
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  schedule:
+    - cron: '25 08 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Allow ddev get to use a GitHub token to prevent rate limiting by tests
+  DDEV_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  add-on-simple-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        ddev_version: [ stable, HEAD, edge ]
+
+    name: Add-on simple tests
+    runs-on: ubuntu-20.04
+    env:
+      ADDON_GITHUB_URL: "julienloizelet/ddev-playwright"
+      ADDON_REF: "v2.0.0"
+
+    steps:
+
+      - name: Clone current repository
+        uses: actions/checkout@v3
+
+      - name: Install DDEV (${{ matrix.ddev_version }})
+        uses: ./
+        with:
+          ddev_version: ${{ matrix.ddev_version }}
+
+      - name: Clone add-on files
+        uses: actions/checkout@v3
+        with:
+          path: tested-add-on
+          repository: ${{ env.ADDON_GITHUB_URL }}
+          ref: ${{ env.ADDON_REF }}
+
+      - name: Run test
+        run: cd tested-add-on && bats tests
