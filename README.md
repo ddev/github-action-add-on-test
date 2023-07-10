@@ -21,9 +21,9 @@ You can add the following step in your workflow:
     ddev_version: "stable"
 ```
 
-This step will install a Magento `2.4.5` instance with PHP `8.1`.
+This step will install the last stable version of DDEV.
 
-In the steps that follow, you will be able to run any DDEV commands to interact with the Magento 2 environment.
+In the steps that follow, you will be able to run any DDEV commands.
 
 
 ## Inputs
@@ -115,10 +115,6 @@ jobs:
       if: matrix.ddev_version == 'stable'  
 
 ```
-
-
-
-
 
 
 ## License
