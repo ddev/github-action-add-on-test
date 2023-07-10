@@ -6,6 +6,15 @@ A GitHub Action to initialise DDEV add-on tests.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Quick start](#quick-start)
+- [Inputs](#inputs)
+  - [Available keys](#available-keys)
+- [Usage](#usage)
+  - [Test your DDEV add-on](#test-your-ddev-add-on)
+- [License](#license)
+- [Contribute](#contribute)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
