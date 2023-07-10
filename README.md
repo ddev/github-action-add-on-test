@@ -30,7 +30,7 @@ You can add the following step in your workflow:
     ddev_version: "stable"
 ```
 
-This step will install the last stable version of DDEV.
+This step will install the latest stable version of DDEV.
 
 In the steps that follow, you will be able to run any DDEV commands.
 
@@ -88,7 +88,6 @@ defaults:
   run:
     shell: bash
 
-
 jobs:
   tests:
     defaults:
@@ -128,7 +127,7 @@ jobs:
 
 ## License
 
-[MIT](LICENSE)
+[Apache](LICENSE)
 
 ## Contribute
 
