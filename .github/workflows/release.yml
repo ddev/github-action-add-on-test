@@ -47,7 +47,7 @@ jobs:
 
       - name: Check version ${{ env.VERSION_NUMBER }} consistency in CHANGELOG and README
         run: |
-          # Check top ## [VERSION_NUMBER](GITHUB_URL/releases/tag/vVERSION_NUMBER) - yyyy-mm-dd in CHANGELOG.md
+          # Check top ## [VERSION_NUMBER](GITHUB_URL/releases/tag/VERSION_NUMBER) - yyyy-mm-dd in CHANGELOG.md
           CURRENT_DATE=$(date +'%Y-%m-%d')
           CHANGELOG_VERSION=$(grep -o -E "## \[(.*)\].* - $CURRENT_DATE"  CHANGELOG.md | head -1 | sed 's/ //g')
           if [[ $CHANGELOG_VERSION == "##[${{ env.VERSION_NUMBER }}]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/${{ env.VERSION_NUMBER }})-$CURRENT_DATE" ]]
