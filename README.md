@@ -1,7 +1,7 @@
 # DDEV add-on test init
 
 
-A GitHub Action to initialise DDEV add-on tests.
+A GitHub Action to initialize DDEV add-on tests.
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
