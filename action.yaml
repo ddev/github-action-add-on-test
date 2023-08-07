@@ -5,10 +5,14 @@ description: "A Github Action to initialize DDEV add-on tests"
 inputs:
 
   ddev_version:
-    type: string
-    required: false
+    type: choice
+    required: true
     default: "stable"
     description: "DDEV Version to use"
+    options:
+      - stable
+      - edge
+      - HEAD
 
 
 runs:
