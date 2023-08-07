@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       ADDON_GITHUB_URL: "julienloizelet/ddev-playwright"
-      ADDON_REF: "v2.0.1"
+      ADDON_REF: "v2.1.1"
 
     steps:
 
