@@ -25,7 +25,7 @@ _We will suppose here that you want to test your add-on with the stable version 
 You can add the following step in your workflow:
 
 ```yaml
-- uses: julienloizelet/ddev-add-on-test-init@v0.0.1
+- uses: julienloizelet/ddev-add-on-test-init@v0.1.0
   with:
     ddev_version: "stable"
 ```
