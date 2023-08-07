@@ -105,7 +105,7 @@ jobs:
 
     - uses: actions/checkout@v3
 
-    - uses: julienloizelet/ddev-add-on-test-init@v0.0.1
+    - uses: julienloizelet/ddev-add-on-test-init@v0.1.0
       with:
         ddev_version: ${{ matrix.ddev_version }}   
 
