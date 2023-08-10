@@ -16,7 +16,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Removed
 
-- Remove `edge`  for `ddev_version` input instead of a free string
+- Remove `edge`  for `ddev_version` input
 
 ### Added
 
