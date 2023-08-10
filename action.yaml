@@ -1,6 +1,6 @@
-name: "DDEV add-on test init"
+name: "DDEV add-on test"
 author: "Julien Loizelet"
-description: "A Github Action to initialize DDEV add-on tests"
+description: "A Github Action to run DDEV add-on tests"
 
 inputs:
 
@@ -10,9 +10,16 @@ inputs:
     default: "stable"
     description: "DDEV Version to use"
     options:
-      - stable
-      - HEAD
-
+      - "stable"
+      - "HEAD"
+  debug_enabled:
+    type: boolean
+    description: Debug with tmate
+    required: false
+    default: false
+  token:
+    description: 'A Github PAT'
+    required: true
 
 runs:
   using: "composite"
@@ -31,11 +38,6 @@ runs:
       if: inputs.ddev_version == 'stable'
       run: brew install ddev/ddev/ddev
 
-    - name: Use ddev edge
-      shell: bash
-      if: inputs.ddev_version == 'edge'
-      run: brew install ddev/ddev-edge/ddev
-
     - name: Use ddev HEAD
       shell: bash
       if: inputs.ddev_version == 'HEAD'
@@ -45,6 +47,15 @@ runs:
       shell: bash
       run: ddev debug download-images >/dev/null
 
+    - uses: mxschmitt/action-tmate@v3
+      with:
+        limit-access-to-actor: true
+        github-token: ${{ inputs.token }}
+      if: inputs.debug_enabled == 'true'
+
+    - name: Run test
+      shell: bash
+      run: bats tests
 
 branding:
   icon: "code"

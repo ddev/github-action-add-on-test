@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - feat/add-sub-actions
     paths-ignore:
       - '**.md'
   schedule:
@@ -10,7 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   # Allow ddev get to use a GitHub token to prevent rate limiting by tests
@@ -21,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ddev_version: [ stable, HEAD, edge ]
+        ddev_version: [ stable, HEAD ]
 
     name: Add-on simple tests
     runs-on: ubuntu-20.04
@@ -31,20 +32,22 @@ jobs:
 
     steps:
 
-      - name: Clone current repository
-        uses: actions/checkout@v3
-
-      - name: Install DDEV (${{ matrix.ddev_version }})
-        uses: ./
-        with:
-          ddev_version: ${{ matrix.ddev_version }}
-
-      - name: Clone add-on files
+      - name: Clone tested add-on files
         uses: actions/checkout@v3
         with:
-          path: tested-add-on
           repository: ${{ env.ADDON_GITHUB_URL }}
           ref: ${{ env.ADDON_REF }}
 
-      - name: Run test
-        run: cd tested-add-on && bats tests
+      - name: Clone current repository
+        uses: actions/checkout@v3
+        with:
+          path: action
+
+      - name: Run DDEV test (${{ matrix.ddev_version }})
+        uses: ./action/
+        with:
+          ddev_version: ${{ matrix.ddev_version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          debug_enabled: false
+
+
