@@ -132,6 +132,11 @@ jobs:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}
         debug_enabled: ${{ github.event.inputs.debug_enabled }}
+        
+      # keepalive-workflow adds a dummy commit if there's no other action here, keeps
+      # GitHub from turning off tests after 60 days
+    - uses: gautamkrishnar/keepalive-workflow@v1
+      if: matrix.ddev_version == 'stable'    
 
 ```
 

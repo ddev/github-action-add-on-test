@@ -57,14 +57,6 @@ runs:
       shell: bash
       run: bats tests
 
-    - uses: gautamkrishnar/keepalive-workflow@v1
-      # keepalive-workflow adds a dummy commit if there's no other action here, keeps
-      # GitHub from turning off tests after 60 days
-      with:
-        commit_message: "chore(*): Automated commit to keep the repository active"
-        time_elapsed: 1
-      if: inputs.ddev_version == 'stable'
-
 branding:
   icon: "code"
   color: "green"

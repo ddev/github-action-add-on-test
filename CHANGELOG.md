@@ -20,7 +20,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Added
 
-- Add `mxschmitt/action-tmate`, `Run test` and `gautamkrishnar/keepalive-workflow` steps in the action
+- Add `mxschmitt/action-tmate` and `Run test` steps in the action
 
 
 ## [v0.1.0](https://github.com/julienloizelet/ddev-add-on-test-init/releases/tag/v0.1.0) - 2023-08-07
