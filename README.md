@@ -49,7 +49,29 @@ DDEV version that will be installed before your tests.
 
 Default: `stable`.
 
-Allowed values are: `stable`, `HEAD`, `edge`.
+Allowed values are: `stable`, `HEAD`.
+
+---
+
+- `debug_enabled`
+
+If `true`, a tmate session will be accessible before the tests step. See [action-tmate](https://github.com/mxschmitt/action-tmate) for more details.
+
+
+Default: `false`.
+
+---
+
+
+- `token` (_String_)
+
+A GitHub PAT required for the debug step.
+
+A simple value could be: `${{ secrets.GITHUB_TOKEN }}`.
+
+---
+
+
 
 
 ## Usage
@@ -107,20 +129,9 @@ jobs:
 
     - uses: julienloizelet/ddev-add-on-test-init@v0.1.0
       with:
-        ddev_version: ${{ matrix.ddev_version }}   
-
-    - name: tmate debugging session
-      uses: mxschmitt/action-tmate@v3
-      with:
-        limit-access-to-actor: true
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-      if: github.event.inputs.debug_enabled == 'true'  
-      
-    - name: tests
-      run: bats tests
-
-    - uses: gautamkrishnar/keepalive-workflow@v1
-      if: matrix.ddev_version == 'stable'  
+        ddev_version: ${{ matrix.ddev_version }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        debug_enabled: false
 
 ```
 
