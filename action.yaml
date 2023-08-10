@@ -11,7 +11,6 @@ inputs:
     description: "DDEV Version to use"
     options:
       - stable
-      - edge
       - HEAD
 
 
@@ -44,7 +43,7 @@ runs:
 
     - name: Download docker images
       shell: bash
-      run: mkdir junk && pushd junk && ddev config --auto && ddev debug download-images >/dev/null
+      run: ddev debug download-images >/dev/null
 
 
 branding:
