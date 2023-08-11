@@ -12,9 +12,6 @@ on:
 permissions:
   contents: write
 
-env:
-  # Allow ddev get to use a GitHub token to prevent rate limiting by tests
-  DDEV_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   add-on-simple-test:
@@ -27,26 +24,18 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       ADDON_GITHUB_URL: "julienloizelet/ddev-playwright"
-      ADDON_REF: "v2.1.1"
 
     steps:
 
-      - name: Clone tested add-on files
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ env.ADDON_GITHUB_URL }}
-          ref: ${{ env.ADDON_REF }}
-
       - name: Clone current repository
         uses: actions/checkout@v3
-        with:
-          path: action
 
       - name: Run DDEV test (${{ matrix.ddev_version }})
-        uses: ./action/
+        uses: ./
         with:
           ddev_version: ${{ matrix.ddev_version }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          debug_enabled: false
-
-
+          addon_repository: ${{ env.ADDON_GITHUB_URL }}
+          addon_ref: v2.1.1
+          addon_path: tested-addon
+          keepalive: false

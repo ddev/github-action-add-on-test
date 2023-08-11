@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v0.3.0](https://github.com/julienloizelet/ddev-add-on-test/releases/tag/v0.3.0) - 2023-08-11
+[_Compare with previous release_](https://github.com/julienloizelet/ddev-add-on-test/compare/v0.2.0...v0.3.0)
+
+
+### Added
+
+- Add `actions/checkout` and `gautamkrishnar/keepalive-workflow` steps in the action
+
+---
+
 ## [v0.2.0](https://github.com/julienloizelet/ddev-add-on-test/releases/tag/v0.2.0) - 2023-08-10
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-add-on-test/compare/v0.1.0...v0.2.0)
 
@@ -22,6 +32,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 - Add `mxschmitt/action-tmate` and `Run test` steps in the action
 
+---
 
 ## [v0.1.0](https://github.com/julienloizelet/ddev-add-on-test/releases/tag/v0.1.0) - 2023-08-07
 [_Compare with previous release_](https://github.com/julienloizelet/ddev-add-on-test/compare/v0.0.1...v0.1.0)

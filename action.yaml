@@ -6,17 +6,43 @@ inputs:
 
   ddev_version:
     type: choice
-    required: true
+    required: false
     default: "stable"
     description: "DDEV Version to use"
     options:
       - "stable"
       - "HEAD"
+
+  addon_repository:
+    description: 'Repository of the tested addon'
+    required: true
+
+  addon_ref:
+    description: 'Repository ref of the tested addon'
+    required: true
+
+  addon_path:
+    description: 'Path to clone the addon'
+    required: false
+    default: './'
+
+  keepalive:
+    type: boolean
+    description: 'Keeps GitHub from turning off tests after 60 days'
+    required: false
+    default: true
+
+  keepalive_time_elapsed:
+    description: 'Time elapsed from the previous commit to trigger a new automated commit (in days)'
+    required: false
+    default: 55
+
   debug_enabled:
     type: boolean
     description: Debug with tmate
     required: false
     default: false
+
   token:
     description: 'A Github PAT'
     required: true
@@ -32,6 +58,12 @@ runs:
       run: |
         brew install bats-core mkcert
         mkcert -install
+
+    - uses: actions/checkout@v3
+      with:
+        repository: ${{ inputs.addon_repository }}
+        ref: ${{ inputs.addon_ref }}
+        path: ${{ inputs.addon_path }}
 
     - name: Use ddev stable
       shell: bash
@@ -54,8 +86,19 @@ runs:
       if: inputs.debug_enabled == 'true'
 
     - name: Run test
+      # Allow ddev get to use a GitHub token to prevent rate limiting by tests
+      env:
+        DDEV_GITHUB_TOKEN: ${{ inputs.token }}
       shell: bash
-      run: bats tests
+      run: cd ${{ inputs.addon_path }} && bats tests
+
+    # keepalive-workflow adds a dummy commit if there's no other action here, keeps
+    # GitHub from turning off tests after 60 days
+    - uses: gautamkrishnar/keepalive-workflow@v1
+      if: matrix.ddev_version == 'stable' && inputs.keepalive == 'true'
+      with:
+        commit_message: "chore(*): Automated commit to keep the repository active"
+        time_elapsed: ${{ inputs.keepalive_time_elapsed }}
 
 branding:
   icon: "code"
