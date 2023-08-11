@@ -12,11 +12,13 @@ inputs:
     options:
       - "stable"
       - "HEAD"
+      -
   debug_enabled:
     type: boolean
     description: Debug with tmate
     required: false
     default: false
+
   token:
     description: 'A Github PAT'
     required: true
@@ -54,6 +56,9 @@ runs:
       if: inputs.debug_enabled == 'true'
 
     - name: Run test
+      # Allow ddev get to use a GitHub token to prevent rate limiting by tests
+      env:
+        DDEV_GITHUB_TOKEN: ${{ inputs.token }}
       shell: bash
       run: bats tests
 
