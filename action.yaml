@@ -6,7 +6,7 @@ inputs:
 
   ddev_version:
     type: choice
-    required: true
+    required: false
     default: "stable"
     description: "DDEV Version to use"
     options:
@@ -29,12 +29,12 @@ inputs:
   keepalive:
     type: boolean
     description: 'Keeps GitHub from turning off tests after 60 days'
-    required: true
+    required: false
     default: true
 
   keepalive_time_elapsed:
     description: 'Time elapsed from the previous commit to trigger a new automated commit (in days)'
-    required: true
+    required: false
     default: 55
 
   debug_enabled:

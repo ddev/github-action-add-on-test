@@ -25,7 +25,7 @@ _We will suppose here that you want to test your add-on with the stable version 
 You can add the following step in your workflow:
 
 ```yaml
-- uses: julienloizelet/ddev-add-on-test@v0.2.0
+- uses: julienloizelet/ddev-add-on-test@v0.3.0
   with:
     ddev_version: "stable"
 ```
@@ -47,16 +47,86 @@ The following keys are available as `step.with` keys:
 
 DDEV version that will be installed before your tests.
 
+Not required.
+
 Default: `stable`.
 
 Allowed values are: `stable`, `HEAD`.
 
 ---
 
-- `debug_enabled`
+- `addon_repository`(_String_)
+
+GitHub repository of the tested addon (`{owner}/{repo}`). Will be used as the `repository` key during a [checkout 
+action](https://github.com/actions/checkout#usage)
+
+Required.
+
+Example: `${{ env.GITHUB_REPOSITORY }}`.
+
+
+---
+
+- `addon_ref`(_String_)
+
+GitHub reference of the tested addon. Will be used as the `ref` key during a [checkout action](https://github.com/actions/checkout#usage)
+
+Required.
+
+Example: `${{ env.GITHUB_REF }}`.
+
+---
+
+- `addon_path`(_String_)
+
+Path (relative to `$GITHUB_WORKSPACE` ) where the addon will be cloned by a checkout action. Will be used as the `path` 
+key of the [checkout action](https://github.com/actions/checkout#usage)
+
+Not required.
+
+Default: `./`
+
+---
+
+- `keepalive` (_Boolean_)
+
+Keeps GitHub from turning off tests after 60 days. 
+
+If enabled, action will use [keepalive-workflow action](gautamkrishnar/keepalive-workflow) when `ddev_version` has 
+been set to `stable`.
+
+**N.B.** If enabled, you have to update the permission of the main workflow to `write`:
+
+```yaml
+permissions:
+  contents: write
+```
+
+Not required.
+
+Default: `true`.
+
+---
+
+
+- `keepalive_time_elapsed` (_String_)
+
+Time elapsed from the previous commit to trigger a new automated commit (in days).
+
+Will be used as the `time_elapsed` key of the  [keepalive-workflow action](gautamkrishnar/keepalive-workflow)
+
+Not required.
+
+Default: `55`.
+
+---
+
+
+- `debug_enabled` (_Boolean_)
 
 If `true`, a tmate session will be accessible before the tests step. See [action-tmate](https://github.com/mxschmitt/action-tmate) for more details.
 
+Not required.
 
 Default: `false`.
 
@@ -65,9 +135,11 @@ Default: `false`.
 
 - `token` (_String_)
 
-A GitHub PAT required for the debug step.
+A GitHub Personal Access Token used by the `debug` and `run test` steps.
 
-A simple value could be: `${{ secrets.GITHUB_TOKEN }}`.
+Required.
+
+Example: `${{ secrets.GITHUB_TOKEN }}`.
 
 ---
 
@@ -104,15 +176,9 @@ on:
 permissions:
   contents: write
 
-defaults:
-  run:
-    shell: bash
 
 jobs:
   tests:
-    defaults:
-      run:
-        shell: bash
 
     strategy:
       matrix:
@@ -123,18 +189,15 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v3
 
-    - uses: julienloizelet/ddev-add-on-test@v0.2.0
+    - uses: julienloizelet/ddev-add-on-test@v0.3.0
       with:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}
         debug_enabled: ${{ github.event.inputs.debug_enabled }}
+        addon_repository: ${{ env.GITHUB_REPOSITORY }}
+        addon_ref: ${{ env.GITHUB_REF }}
         
-      # keepalive-workflow adds a dummy commit if there's no other action here, keeps
-      # GitHub from turning off tests after 60 days
-    - uses: gautamkrishnar/keepalive-workflow@v1
-      if: matrix.ddev_version == 'stable'    
 
 ```
 
