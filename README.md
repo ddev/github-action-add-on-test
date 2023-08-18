@@ -28,11 +28,12 @@ You can add the following step in your workflow:
 - uses: julienloizelet/ddev-add-on-test@v0.3.0
   with:
     ddev_version: "stable"
+    token: ${{ secrets.GITHUB_TOKEN }}
+    addon_repository: ${{ env.GITHUB_REPOSITORY }}
+    addon_ref: ${{ env.GITHUB_REF }}
 ```
 
-This step will install the latest stable version of DDEV.
-
-In the steps that follow, you will be able to run any DDEV commands.
+This step will install the latest stable version of DDEV and run `bats tests` command from the source folder of your add-on.
 
 
 ## Inputs
@@ -52,6 +53,16 @@ Not required.
 Default: `stable`.
 
 Allowed values are: `stable`, `HEAD`.
+
+---
+
+- `token` (_String_)
+
+A GitHub Personal Access Token used by the `debug` and `run test` steps.
+
+Required.
+
+Example: `${{ secrets.GITHUB_TOKEN }}`.
 
 ---
 
@@ -132,18 +143,6 @@ Default: `false`.
 
 ---
 
-
-- `token` (_String_)
-
-A GitHub Personal Access Token used by the `debug` and `run test` steps.
-
-Required.
-
-Example: `${{ secrets.GITHUB_TOKEN }}`.
-
----
-
-
 ## Usage
 
 ### Test your DDEV add-on
@@ -189,7 +188,6 @@ jobs:
 
     steps:
 
-
     - uses: julienloizelet/ddev-add-on-test@v0.3.0
       with:
         ddev_version: ${{ matrix.ddev_version }}
@@ -197,8 +195,6 @@ jobs:
         debug_enabled: ${{ github.event.inputs.debug_enabled }}
         addon_repository: ${{ env.GITHUB_REPOSITORY }}
         addon_ref: ${{ env.GITHUB_REF }}
-        
-
 ```
 
 
