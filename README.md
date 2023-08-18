@@ -25,7 +25,7 @@ _We will suppose here that you want to test your add-on with the stable version 
 You can add the following step in your workflow:
 
 ```yaml
-- uses: julienloizelet/ddev-add-on-test@v0.3.0
+- uses: ddev/ddev-add-on-test@v0.3.0
   with:
     ddev_version: "stable"
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -188,7 +188,7 @@ jobs:
 
     steps:
 
-    - uses: julienloizelet/ddev-add-on-test@v0.3.0
+    - uses: ddev/ddev-add-on-test@v0.3.0
       with:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}
