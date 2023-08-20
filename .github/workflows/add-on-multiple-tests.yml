@@ -1,0 +1,44 @@
+name: Add-on multiple tests
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  schedule:
+    - cron: '25 09 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+
+jobs:
+  add-on-simple-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        ddev_version: [ stable, HEAD ]
+        add_on: ["ddev/ddev-redis-commander", "ddev/ddev-mongo", "ddev/ddev-adminer"]
+
+    name: Add-on multiple tests
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Clone current repository
+        uses: actions/checkout@v3
+
+      - name: Retrieve last tag of add-on
+        run: |
+          echo "ADD_ON_LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/${{ matrix.add_on }}/releases/latest | grep -oP "\/tag\/\K(.*)$")" >> $GITHUB_ENV 
+
+      - name: Run DDEV test (${{ matrix.ddev_version }})
+        uses: ./
+        with:
+          ddev_version: ${{ matrix.ddev_version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          addon_repository: ${{ matrix.add_on }}
+          addon_ref: ${{ env.ADD_ON_LAST_TAG }}
+          addon_path: tested-addon
+          keepalive: false

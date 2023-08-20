@@ -35,6 +35,8 @@ You can add the following step in your workflow:
 
 This step will install the latest stable version of DDEV and run `bats tests` command from the source folder of your add-on.
 
+(We assume here that the source folder of your add-on contains a `tests` folder with a `bats` file, as it is the 
+case if you have used the [DDEV addon template](https://github.com/ddev/ddev-addon-template) to create your add-on.)
 
 ## Inputs
 
