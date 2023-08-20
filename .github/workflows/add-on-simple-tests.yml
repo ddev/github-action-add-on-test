@@ -42,7 +42,7 @@ jobs:
       # GitHub from turning off tests after 60 days
       - name: Keep alive
         uses: gautamkrishnar/keepalive-workflow@v1
-        if: matrix.ddev_version == 'stable'
+        if: always() && matrix.ddev_version == 'stable'
         with:
           commit_message: "chore(*): Automated commit to keep the repository active"
           time_elapsed: 55
