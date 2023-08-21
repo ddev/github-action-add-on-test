@@ -144,8 +144,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Move the major tag version
+      - name: Move or create the major tag
         run: git tag -f ${{needs.create-release.outputs.major_tag}} ${{needs.create-release.outputs.version_number}}
 
-      - name: Push the updated major tag version
+      - name: Push the major tag
         run: git push origin ${{needs.create-release.outputs.major_tag}} --force
