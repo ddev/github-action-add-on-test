@@ -1,4 +1,4 @@
-name: Add-on simple tests
+name: Multiple add-ons test
 on:
   push:
     branches:
@@ -12,16 +12,15 @@ on:
 permissions:
   contents: write
 
-
 jobs:
-  add-on-simple-test:
+  multiple-add-ons-test:
     strategy:
       fail-fast: false
       matrix:
-        ddev_version: [ stable, HEAD ]
-        add_on: ["ddev/ddev-redis-commander"]
+        ddev_version: [ stable ]
+        add_on: ["ddev/ddev-redis-commander", "ddev/ddev-mongo", "ddev/ddev-adminer"]
 
-    name: Add-on simple tests
+    name: Add-on test
     runs-on: ubuntu-latest
 
     steps:
@@ -42,12 +41,3 @@ jobs:
           addon_ref: ${{ env.ADD_ON_LAST_TAG }}
           addon_path: tested-addon
           keepalive: false
-
-      # keepalive-workflow adds a dummy commit if there's no other action here, keeps
-      # GitHub from turning off tests after 60 days
-      - name: Keep alive
-        uses: gautamkrishnar/keepalive-workflow@v1
-        if: always() && matrix.ddev_version == 'stable'
-        with:
-          commit_message: "chore(*): Automated commit to keep the repository active"
-          time_elapsed: 55

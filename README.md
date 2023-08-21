@@ -25,7 +25,7 @@ _We will suppose here that you want to test your add-on with the stable version 
 You can add the following step in your workflow:
 
 ```yaml
-- uses: ddev/github-action-add-on-test@v0.4.0
+- uses: ddev/github-action-add-on-test@v0.5.0
   with:
     ddev_version: "stable"
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -35,8 +35,7 @@ You can add the following step in your workflow:
 
 This step will install the latest stable version of DDEV and run `bats tests` command from the source folder of your add-on.
 
-(We assume here that the source folder of your add-on contains a `tests` folder with a `bats` file, as it is the 
-case if you have used the [DDEV addon template](https://github.com/ddev/ddev-addon-template) to create your add-on.)
+(The source folder of your add-on must contain a `tests` folder with at least a `bats` file, as it is the case if you have used the [DDEV addon template](https://github.com/ddev/ddev-addon-template) to create your add-on.)
 
 ## Inputs
 
@@ -199,7 +198,7 @@ jobs:
 
     steps:
 
-    - uses: ddev/github-action-add-on-test@v0.4.0
+    - uses: ddev/github-action-add-on-test@v0.5.0
       with:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}

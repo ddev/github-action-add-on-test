@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v0.5.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v0.5.0) - 2023-08-21
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v0.4.0...v0.5.0)
+
+
+### Added
+
+- Add `disable_checkout_action` boolean input
+
+---
+
 ## [v0.4.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v0.4.0) - 2023-08-21
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v0.3.0...v0.4.0)
 
