@@ -1,4 +1,4 @@
-name: Add-on multiple tests
+name: Add-on with disabled checkout tests
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - '**.md'
   schedule:
-    - cron: '25 09 * * *'
+    - cron: '35 08 * * *'
   workflow_dispatch:
 
 permissions:
@@ -19,9 +19,9 @@ jobs:
       fail-fast: false
       matrix:
         ddev_version: [ stable ]
-        add_on: ["ddev/ddev-redis-commander", "ddev/ddev-mongo", "ddev/ddev-adminer"]
+        add_on: ["JanoPL/ddev-kibana"]
 
-    name: Add-on multiple tests
+    name: Add-on simple tests
     runs-on: ubuntu-latest
 
     steps:
@@ -32,6 +32,15 @@ jobs:
       - name: Retrieve last tag of add-on
         run: |
           echo "ADD_ON_LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/${{ matrix.add_on }}/releases/latest | grep -oP "\/tag\/\K(.*)$")" >> $GITHUB_ENV 
+          
+          
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ matrix.add_on }}
+          ref: ${{ env.ADD_ON_LAST_TAG }}
+          path: tested-addon
+          submodules: 'true'
 
       - name: Run DDEV test (${{ matrix.ddev_version }})
         uses: ./
@@ -42,3 +51,5 @@ jobs:
           addon_ref: ${{ env.ADD_ON_LAST_TAG }}
           addon_path: tested-addon
           keepalive: false
+          disable_checkout_action: true
+

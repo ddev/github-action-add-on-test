@@ -43,6 +43,12 @@ inputs:
     required: false
     default: false
 
+  disable_checkout_action:
+    type: boolean
+    description: Disable addon checkout action
+    required: false
+    default: false
+
   token:
     description: 'A Github PAT'
     required: true
@@ -60,6 +66,7 @@ runs:
         mkcert -install
 
     - uses: actions/checkout@v3
+      if: inputs.disable_checkout_action == 'false'
       with:
         repository: ${{ inputs.addon_repository }}
         ref: ${{ inputs.addon_ref }}
