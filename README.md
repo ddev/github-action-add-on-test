@@ -144,6 +144,16 @@ Default: `false`.
 
 ---
 
+- `disable_checkout_action` (_Boolean_)
+
+If you need to check out your add-on source code with some specific inputs (`submodules`, `ssh-key`, etc.), or you need to perform some extra steps between checkout and DDEV installation steps, you can disable the default checkout action by setting `true` for this input.
+
+Not required.
+
+Default: `false`.
+
+---
+
 ## Usage
 
 ### Test your DDEV add-on

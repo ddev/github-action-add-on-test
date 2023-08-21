@@ -14,14 +14,14 @@ permissions:
 
 
 jobs:
-  add-on-simple-test:
+  add-on-disable-checkout-test:
     strategy:
       fail-fast: false
       matrix:
         ddev_version: [ stable ]
         add_on: ["JanoPL/ddev-kibana"]
 
-    name: Add-on simple tests
+    name: Add-on with disabled checkout tests
     runs-on: ubuntu-latest
 
     steps:
@@ -32,8 +32,7 @@ jobs:
       - name: Retrieve last tag of add-on
         run: |
           echo "ADD_ON_LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/${{ matrix.add_on }}/releases/latest | grep -oP "\/tag\/\K(.*)$")" >> $GITHUB_ENV 
-          
-          
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
