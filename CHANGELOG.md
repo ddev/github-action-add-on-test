@@ -11,6 +11,17 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v0.6.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v0.6.0) - 2023-08-21
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v0.5.0...v0.6.0)
+
+
+### Changed
+
+- Move (or create) the major version tag (such as `v1`, `v2`) to point to the Git ref of the current release
+
+---
+
+
 ## [v0.5.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v0.5.0) - 2023-08-21
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v0.4.0...v0.5.0)
 

@@ -1,5 +1,5 @@
 name: Create Release
-# example: gh workflow run release.yml -f tag_name=v1.1.4 -f draft=true
+# example: gh workflow run release.yml -f tag_name=v1.1.4
 on:
   workflow_dispatch:
     branches:
@@ -8,14 +8,6 @@ on:
       tag_name:
         type: string
         required: true
-      draft:
-        type: boolean
-        description: Draft release
-        default: false
-      prerelease:
-        type: boolean
-        description: Prerelease
-        default: false
       first-release:
         type: boolean
         description: First release
@@ -27,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
+    outputs:
+      version_number: ${{ steps.set-outputs.outputs.version_number }}
+      major_tag: ${{ steps.set-outputs.outputs.major_tag }}
 
     steps:
       - name: Check naming convention
@@ -41,6 +37,10 @@ jobs:
       - name: Set version number with v
         run: |
           echo "VERSION_NUMBER=$(echo ${{ github.event.inputs.tag_name }})" >> $GITHUB_ENV
+
+      - name: Set major tag with v
+        run: |
+          echo "MAJOR_TAG=$(echo ${{ env.VERSION_NUMBER }} | cut -d. -f1)" >> $GITHUB_ENV    
 
       - name: Clone sources
         uses: actions/checkout@v3
@@ -74,27 +74,27 @@ jobs:
             fi
           fi
           
-          # Check first uses in README
+          # Check first major tag uses in README
           README_VERSION=$(grep -E "$GITHUB_REPOSITORY@v(.*)"  README.md | sed 's/ //g' | head -1)
           echo $README_VERSION
-          echo "-uses:$GITHUB_REPOSITORY@v${{ env.VERSION_NUMBER }}"
-          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ env.VERSION_NUMBER }}" ]]
+          echo "-uses:$GITHUB_REPOSITORY@v${{ env.MAJOR_TAG }}"
+          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ env.MAJOR_TAG }}" ]]
           then
-              echo "Version in README.md: OK"
+              echo "Major tag in README.md: OK"
           else
-              echo "Version in README.md: KO"
+              echo "Major tag in README.md: KO"
               exit 1
           fi
           
-          # Check second uses in README
+          # Check second major tags uses in README
           README_VERSION=$(grep -E "$GITHUB_REPOSITORY@v(.*)"  README.md | sed 's/ //g' | tail -1)
           echo $README_VERSION
-          echo "-uses:$GITHUB_REPOSITORY@v${{ env.VERSION_NUMBER }}"
-          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ env.VERSION_NUMBER }}" ]]
+          echo "-uses:$GITHUB_REPOSITORY@v${{ env.MAJOR_TAG }}"
+          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ env.MAJOR_TAG }}" ]]
           then
-              echo "Version in README.md: OK"
+              echo "Major tag in README.md: OK"
           else
-              echo "Version in README.md: KO"
+              echo "Major tag in README.md: KO"
               exit 1
           fi
 
@@ -122,5 +122,30 @@ jobs:
           body_path: CHANGELOG.txt
           name: ${{ env.VERSION_NUMBER }}
           tag_name: ${{ github.event.inputs.tag_name }}
-          draft: ${{ github.event.inputs.draft }}
-          prerelease: ${{ github.event.inputs.prerelease }}
+          draft: false
+          prerelease: false
+
+      - name: Set outputs
+        id: set-outputs
+        run: |
+          echo "version_number=${{ env.VERSION_NUMBER}}" >> $GITHUB_OUTPUT
+          echo "major_tag=${{ env.MAJOR_TAG}}" >> $GITHUB_OUTPUT
+
+  update-major-tag:
+    name: Update major tag
+    runs-on: ubuntu-latest
+    needs: create-release
+    permissions:
+      contents: write
+
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Move the major tag version
+        run: git tag -f ${{needs.create-release.outputs.major_tag}} ${{needs.create-release.outputs.version_number}}
+
+      - name: Push the updated major tag version
+        run: git push origin ${{needs.create-release.outputs.major_tag}} --force
