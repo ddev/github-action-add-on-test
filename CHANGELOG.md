@@ -17,7 +17,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Changed
 
-- Move (or create) the major version tag (such as `v1`, `v2`) to point to the Git ref of the current release
+- Move (or create) the major version tag (such as `v1`, `v2`) to point to the Git ref of the current release ([@see #11](https://github.com/ddev/github-action-add-on-test/issues/11))
 
 ---
 
@@ -28,7 +28,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Added
 
-- Add `disable_checkout_action` boolean input
+- Add `disable_checkout_action` boolean input ([@see #9](https://github.com/ddev/github-action-add-on-test/issues/9))
 
 ---
 
