@@ -25,7 +25,7 @@ _We will suppose here that you want to test your add-on with the stable version 
 You can add the following step in your workflow:
 
 ```yaml
-- uses: ddev/github-action-add-on-test@v0.3.0
+- uses: ddev/github-action-add-on-test@v0.4.0
   with:
     ddev_version: "stable"
     token: ${{ secrets.GITHUB_TOKEN }}
@@ -105,8 +105,7 @@ Default: `./`
 
 Keeps GitHub from turning off tests after 60 days. 
 
-If enabled, action will use [keepalive-workflow action](gautamkrishnar/keepalive-workflow) when `ddev_version` has 
-been set to `stable`.
+If enabled, action will use [keepalive-workflow action](gautamkrishnar/keepalive-workflow) when `ddev_version` has been set to `stable`.
 
 **N.B.** If enabled, you have to update the permission of the main workflow to `write`:
 
@@ -190,7 +189,7 @@ jobs:
 
     steps:
 
-    - uses: ddev/github-action-add-on-test@v0.3.0
+    - uses: ddev/github-action-add-on-test@v0.4.0
       with:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}

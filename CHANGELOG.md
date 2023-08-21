@@ -11,6 +11,17 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v0.4.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v0.4.0) - 2023-08-21
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v0.3.0...v0.4.0)
+
+
+### Changed
+
+- Run `keepalive-workflow` step even if a previous step failed
+
+---
+
+
 ## [v0.3.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v0.3.0) - 2023-08-11
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v0.2.0...v0.3.0)
 
