@@ -6,6 +6,7 @@ on:
       - main
     inputs:
       tag_name:
+        description: Tag name
         type: string
         required: true
       first-release:
