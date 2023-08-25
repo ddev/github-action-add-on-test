@@ -39,7 +39,7 @@ jobs:
           path: tested-addon
           submodules: 'true'
 
-      - name: Run DDEV test
+      - name: Run add-on test
         uses: ./
         with:
           ddev_version: ${{ env.DDEV_VERSION }}

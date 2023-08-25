@@ -45,7 +45,7 @@ jobs:
         run: |
           echo "ADD_ON_LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/${{ matrix.add_on }}/releases/latest | grep -oP "\/tag\/\K(.*)$")" >> $GITHUB_ENV 
 
-      - name: Run DDEV test (${{ matrix.ddev_version }})
+      - name: Run add-on test (${{ matrix.ddev_version }})
         uses: ./
         with:
           ddev_version: ${{ matrix.ddev_version }}
