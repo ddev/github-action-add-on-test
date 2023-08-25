@@ -5,6 +5,9 @@ on:
       - main
     paths-ignore:
       - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
   schedule:
     - cron: '25 08 * * *'
   workflow_dispatch:
