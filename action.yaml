@@ -62,7 +62,9 @@ runs:
     - name: Environment setup
       shell: bash
       run: |
-        brew install bats-core mkcert
+        # For bats-assert and friends
+        brew tap kaos/shell
+        brew install bats-core bats-assert bats-support jq mkcert yq
         mkcert -install
 
     - uses: actions/checkout@v3
