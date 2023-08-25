@@ -17,11 +17,6 @@ permissions:
 
 jobs:
   disable-checkout-test:
-    strategy:
-      fail-fast: false
-      matrix:
-        ddev_version: [ stable ]
-        add_on: ["JanoPL/ddev-kibana"]
 
     name: Disable checkout test
     runs-on: ubuntu-latest
@@ -29,6 +24,7 @@ jobs:
     env:
       ADD_ON: JanoPL/ddev-kibana
       ADD_ON_REF: v1.4.0
+      DDEV_VERSION: stable
 
     steps:
 
@@ -46,7 +42,7 @@ jobs:
       - name: Run DDEV test (${{ matrix.ddev_version }})
         uses: ./
         with:
-          ddev_version: ${{ matrix.ddev_version }}
+          ddev_version: ${{ env.DDEV_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
           addon_repository: ${{ env.ADD_ON }}
           addon_ref: ${{ env.ADD_ON_REF }}
