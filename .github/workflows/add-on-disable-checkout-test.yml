@@ -39,7 +39,7 @@ jobs:
           path: tested-addon
           submodules: 'true'
 
-      - name: Run DDEV test (${{ matrix.ddev_version }})
+      - name: Run DDEV test
         uses: ./
         with:
           ddev_version: ${{ env.DDEV_VERSION }}
