@@ -1,4 +1,4 @@
-name: Add-on with disabled checkout tests
+name: Disable checkout test
 on:
   push:
     branches:
@@ -13,34 +13,33 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-
+  contents: read
 
 jobs:
-  add-on-disable-checkout-test:
+  disable-checkout-test:
     strategy:
       fail-fast: false
       matrix:
         ddev_version: [ stable ]
         add_on: ["JanoPL/ddev-kibana"]
 
-    name: Add-on with disabled checkout tests
+    name: Disable checkout test
     runs-on: ubuntu-latest
+
+    env:
+      ADD_ON: JanoPL/ddev-kibana
+      ADD_ON_REF: v1.4.0
 
     steps:
 
       - name: Clone current repository
         uses: actions/checkout@v3
 
-      - name: Retrieve last tag of add-on
-        run: |
-          echo "ADD_ON_LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/${{ matrix.add_on }}/releases/latest | grep -oP "\/tag\/\K(.*)$")" >> $GITHUB_ENV 
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: ${{ matrix.add_on }}
-          ref: ${{ env.ADD_ON_LAST_TAG }}
+          repository: ${{ env.ADD_ON }}
+          ref: ${{ env.ADD_ON_REF }}
           path: tested-addon
           submodules: 'true'
 
@@ -49,8 +48,8 @@ jobs:
         with:
           ddev_version: ${{ matrix.ddev_version }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          addon_repository: ${{ matrix.add_on }}
-          addon_ref: ${{ env.ADD_ON_LAST_TAG }}
+          addon_repository: ${{ env.ADD_ON }}
+          addon_ref: ${{ env.ADD_ON_REF }}
           addon_path: tested-addon
           keepalive: false
           disable_checkout_action: true

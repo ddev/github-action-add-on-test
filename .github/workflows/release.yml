@@ -129,8 +129,8 @@ jobs:
       - name: Set outputs
         id: set-outputs
         run: |
-          echo "version_number=${{ env.VERSION_NUMBER}}" >> $GITHUB_OUTPUT
-          echo "major_tag=${{ env.MAJOR_TAG}}" >> $GITHUB_OUTPUT
+          echo "version_number=${{ env.VERSION_NUMBER }}" >> $GITHUB_OUTPUT
+          echo "major_tag=${{ env.MAJOR_TAG }}" >> $GITHUB_OUTPUT
 
   update-major-tag:
     name: Update major tag
@@ -146,7 +146,7 @@ jobs:
           fetch-depth: 0
 
       - name: Move or create the major tag
-        run: git tag -f ${{needs.create-release.outputs.major_tag}} ${{needs.create-release.outputs.version_number}}
+        run: git tag -f ${{ needs.create-release.outputs.major_tag }} ${{ needs.create-release.outputs.version_number }}
 
       - name: Push the major tag
-        run: git push origin ${{needs.create-release.outputs.major_tag}} --force
+        run: git push origin ${{ needs.create-release.outputs.major_tag }} --force
