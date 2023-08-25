@@ -109,7 +109,7 @@ Default: `./`
 
 Keeps GitHub from turning off tests after 60 days. 
 
-If enabled, action will use [keepalive-workflow action](gautamkrishnar/keepalive-workflow) when `ddev_version` has been set to `stable`.
+If enabled, action will use [keepalive-workflow action](https://github.com/gautamkrishnar/keepalive-workflow) when `ddev_version` has been set to `stable`.
 
 **N.B.** If enabled, you have to update the permission of the main workflow to `write`:
 
@@ -129,7 +129,7 @@ Default: `true`.
 
 Time elapsed from the previous commit to trigger a new automated commit (in days).
 
-Will be used as the `time_elapsed` key of the  [keepalive-workflow action](gautamkrishnar/keepalive-workflow)
+Will be used as the `time_elapsed` key of the  [keepalive-workflow action](https://github.com/gautamkrishnar/keepalive-workflow).
 
 Not required.
 
