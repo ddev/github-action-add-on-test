@@ -6,8 +6,7 @@
 
 [![Version](https://img.shields.io/github/v/release/ddev/github-action-add-on-test)](https://github.comddev/github-action-add-on-test/releases)
 ![project is maintained](https://img.shields.io/maintenance/yes/2024.svg)
-[![tests](https://github.com/ddev/github-action-add-on-test/actions/workflows/adds-on-test.yml/badge.svg)]
-(https://github.com/ddev/github-action-add-on-test/actions/workflows/add-ons-test.yml)
+[![tests](https://github.com/ddev/github-action-add-on-test/actions/workflows/add-ons-test.yml/badge.svg)](https://github.com/ddev/github-action-add-on-test/actions/workflows/add-ons-test.yml)
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
