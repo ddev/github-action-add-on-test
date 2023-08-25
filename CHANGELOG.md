@@ -11,6 +11,17 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v1.0.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v1.0.0) - 2023-08-25
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v0.6.0...v1.0.0)
+
+
+### Changed
+
+-  Install `bats-assert` and friends by default ([@see PR #15](https://github.com/ddev/github-action-add-on-test/pull/15))
+
+---
+
+
 ## [v0.6.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v0.6.0) - 2023-08-21
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v0.5.0...v0.6.0)
 
