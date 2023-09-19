@@ -64,7 +64,7 @@ runs:
       run: |
         # For bats-assert and friends
         brew tap kaos/shell
-        brew install bats-core bats-assert bats-support jq mkcert yq
+        brew install bats-file bats-assert bats-support jq mkcert yq
         mkcert -install
 
     - uses: actions/checkout@v3
