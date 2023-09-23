@@ -22,14 +22,19 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       ADD_ON: JanoPL/ddev-kibana
-      ADD_ON_REF: v1.5.1
+      ADD_ON_REF: ""
       DDEV_VERSION: stable
 
     steps:
 
       - name: Clone current repository
         uses: actions/checkout@v3
+
+      - name: Retrieve last tag of add-on
+        run: |
+          echo "ADD_ON_REF=$(gh api https://api.github.com/repos/JanoPL/ddev-kibana/releases/latest | jq '.tag_name')" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@v3
