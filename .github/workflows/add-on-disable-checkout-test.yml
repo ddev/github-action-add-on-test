@@ -23,7 +23,7 @@ jobs:
 
     env:
       ADD_ON: JanoPL/ddev-kibana
-      ADD_ON_REF: v1.6.0
+      ADD_ON_REF: v1.4.0
       DDEV_VERSION: stable
 
     steps:
