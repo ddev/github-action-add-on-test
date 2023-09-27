@@ -1,152 +1,34 @@
-name: Create Release
-# example: gh workflow run release.yml -f tag_name=v1.1.4
+name: Release
 on:
-  workflow_dispatch:
+  push:
     branches:
       - main
-    inputs:
-      tag_name:
-        description: Tag name
-        type: string
-        required: true
-      first-release:
-        type: boolean
-        description: First release
-        default: false
+
+permissions:
+  contents: read
 
 jobs:
-  create-release:
-    name: Create release
+  release:
+    name: Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
-    outputs:
-      version_number: ${{ steps.set-outputs.outputs.version_number }}
-      major_tag: ${{ steps.set-outputs.outputs.major_tag }}
-
+      id-token: write
+      issues: write
+      pull-requests: write
     steps:
-      - name: Check naming convention
-        run: |
-          VERIF=$(echo ${{ github.event.inputs.tag_name }} | grep -E "^v([0-9]{1,}\.)([0-9]{1,}\.)([0-9]{1,})(-(alpha|beta)\.[0-9]{1,})?$")
-          if [ ! ${VERIF} ]
-          then
-            echo "Tag name '${{ github.event.inputs.tag_name }}' does not comply with naming convention vX.Y.Z"
-            exit 1
-          fi
-
-      - name: Set version number with v
-        run: |
-          echo "VERSION_NUMBER=$(echo ${{ github.event.inputs.tag_name }})" >> $GITHUB_ENV
-
-      - name: Set major tag with v
-        run: |
-          echo "MAJOR_TAG=$(echo ${{ env.VERSION_NUMBER }} | cut -d. -f1)" >> $GITHUB_ENV    
-
-      - name: Clone sources
-        uses: actions/checkout@v3
-
-      - name: Check version ${{ env.VERSION_NUMBER }} consistency in CHANGELOG and README
-        run: |
-          # Check top ## [VERSION_NUMBER](GITHUB_URL/releases/tag/VERSION_NUMBER) - yyyy-mm-dd in CHANGELOG.md
-          CURRENT_DATE=$(date +'%Y-%m-%d')
-          CHANGELOG_VERSION=$(grep -o -E "## \[(.*)\].* - $CURRENT_DATE"  CHANGELOG.md | head -1 | sed 's/ //g')
-          if [[ $CHANGELOG_VERSION == "##[${{ env.VERSION_NUMBER }}]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/${{ env.VERSION_NUMBER }})-$CURRENT_DATE" ]]
-          then
-            echo "CHANGELOG VERSION OK"
-          else
-            echo "CHANGELOG VERSION KO"
-            exit 1
-          fi
-          
-          # Check top [_Compare with previous release_](GITHUB_URL/compare/vLAST_TAG...VERSION_NUMBER) in CHANGELOG.md
-          if [[ ${{ github.event.inputs.first-release }} != "true" ]]
-          then
-            COMPARISON=$(grep -oP "\/compare\/\K(.*)$" CHANGELOG.md | head -1)
-            LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/latest | grep -oP "\/tag\/\K(.*)$")
-            if [[ $COMPARISON == "$LAST_TAG...${{ env.VERSION_NUMBER }})" ]]
-            then
-              echo "VERSION COMPARISON OK"
-            else
-              echo "VERSION COMPARISON KO"
-              echo $COMPARISON
-              echo "$LAST_TAG...${{ env.VERSION_NUMBER }})"
-              exit 1
-            fi
-          fi
-          
-          # Check first major tag uses in README
-          README_VERSION=$(grep -E "$GITHUB_REPOSITORY@v(.*)"  README.md | sed 's/ //g' | head -1)
-          echo $README_VERSION
-          echo "-uses:$GITHUB_REPOSITORY@v${{ env.MAJOR_TAG }}"
-          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ env.MAJOR_TAG }}" ]]
-          then
-              echo "Major tag in README.md: OK"
-          else
-              echo "Major tag in README.md: KO"
-              exit 1
-          fi
-          
-          # Check second major tags uses in README
-          README_VERSION=$(grep -E "$GITHUB_REPOSITORY@v(.*)"  README.md | sed 's/ //g' | tail -1)
-          echo $README_VERSION
-          echo "-uses:$GITHUB_REPOSITORY@v${{ env.MAJOR_TAG }}"
-          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ env.MAJOR_TAG }}" ]]
-          then
-              echo "Major tag in README.md: OK"
-          else
-              echo "Major tag in README.md: KO"
-              exit 1
-          fi
-
-      - name: Create Tag ${{ github.event.inputs.tag_name }}
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ github.token }}
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/${{ github.event.inputs.tag_name }}",
-              sha: context.sha
-            })
-
-      - name: Prepare release notes
-        run: |
-          # Retrieve release body and remove ---
-          VERSION_RELEASE_NOTES=$(awk -v ver="[${{ env.VERSION_NUMBER }}]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/${{ env.VERSION_NUMBER }})" '/^## / { if (p) { exit }; if ($2 == ver) { p=1; next} } p && NF' CHANGELOG.md | sed ':a;N;$!ba;s/\n---/ /g')
-          echo "$VERSION_RELEASE_NOTES" >> CHANGELOG.txt
-
-      - name: Create release ${{ env.VERSION_NUMBER }}
-        uses: softprops/action-gh-release@v1
-        with:
-          body_path: CHANGELOG.txt
-          name: ${{ env.VERSION_NUMBER }}
-          tag_name: ${{ github.event.inputs.tag_name }}
-          draft: false
-          prerelease: false
-
-      - name: Set outputs
-        id: set-outputs
-        run: |
-          echo "version_number=${{ env.VERSION_NUMBER }}" >> $GITHUB_OUTPUT
-          echo "major_tag=${{ env.MAJOR_TAG }}" >> $GITHUB_OUTPUT
-
-  update-major-tag:
-    name: Update major tag
-    runs-on: ubuntu-latest
-    needs: create-release
-    permissions:
-      contents: write
-
-    steps:
-
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Move or create the major tag
-        run: git tag -f ${{ needs.create-release.outputs.major_tag }} ${{ needs.create-release.outputs.version_number }}
-
-      - name: Push the major tag
-        run: git push origin ${{ needs.create-release.outputs.major_tag }} --force
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - name: Install dependencies
+        run: npm install
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run semantic-release
