@@ -95,9 +95,14 @@ runs:
       if: inputs.debug_enabled == 'true'
 
     - name: Run test
-      # Allow ddev get to use a GitHub token to prevent rate limiting by tests
       env:
+        # Allow ddev get to use a GitHub token to prevent rate limiting by tests
         DDEV_GITHUB_TOKEN: ${{ inputs.token }}
+        # Don't try interactive behaviors
+        DDEV_NONINTERACTIVE: "true"
+        # Don't send telemetry to amplitude
+        DDEV_NO_INSTRUMENTATION: "true"
+
       shell: bash
       run: cd ${{ inputs.addon_path }} && bats tests
 
