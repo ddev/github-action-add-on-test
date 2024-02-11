@@ -67,7 +67,7 @@ runs:
         brew install bats-core bats-file bats-assert bats-support jq mkcert yq
         mkcert -install
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       if: inputs.disable_checkout_action == 'false'
       with:
         repository: ${{ inputs.addon_repository }}
