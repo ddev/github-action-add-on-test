@@ -17,7 +17,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Changed
 
-- Update `actions/checkout` to v4 for Node 20 ([PR #26](https://github.com/ddev/github-action-add-on-test/pull/26))
+- Update `actions/checkout` to `v4` for Node.js 20 ([PR #26](https://github.com/ddev/github-action-add-on-test/pull/26))
 
 ---
 
