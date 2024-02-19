@@ -1,22 +1,19 @@
 name: Keep Alive
 on:
-
   schedule:
-    - cron: '0 3 * * 4'
+    - cron: "0 3 * * 4"
 
 permissions:
   contents: write
 
 jobs:
   keep-alive:
-
     name: Keep Alive
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Clone project files
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # keepalive-workflow adds a dummy commit if there's no other action here, keeps
       # GitHub from turning off tests after 60 days
