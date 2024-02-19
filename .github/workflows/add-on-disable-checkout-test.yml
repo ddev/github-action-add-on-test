@@ -4,12 +4,12 @@ on:
     branches:
       - main
     paths-ignore:
-      - '**.md'
+      - "**.md"
   pull_request:
     paths-ignore:
-      - '**.md'
+      - "**.md"
   schedule:
-    - cron: '25 08 * * *'
+    - cron: "25 08 * * THU"
   workflow_dispatch:
 
 permissions:
@@ -17,7 +17,6 @@ permissions:
 
 jobs:
   disable-checkout-test:
-
     name: Disable checkout test
     runs-on: ubuntu-latest
 
@@ -27,17 +26,16 @@ jobs:
       DDEV_VERSION: stable
 
     steps:
-
       - name: Clone current repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ env.ADD_ON }}
           ref: ${{ env.ADD_ON_REF }}
           path: tested-addon
-          submodules: 'true'
+          submodules: "true"
 
       - name: Run add-on test
         uses: ./
@@ -49,4 +47,3 @@ jobs:
           addon_path: tested-addon
           keepalive: false
           disable_checkout_action: true
-
