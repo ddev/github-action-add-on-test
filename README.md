@@ -127,7 +127,7 @@ Default: `true`.
 
 - `keepalive_time_elapsed` (_String_)
 
-Time elapsed from the previous commit to trigger a new automated commit (in days).
+Time elapsed from the previous commit to keep the repository active using GitHub API (in days).
 
 Will be used as the `time_elapsed` key of the  [keepalive-workflow action](https://github.com/gautamkrishnar/keepalive-workflow).
 
