@@ -106,12 +106,10 @@ runs:
       shell: bash
       run: cd ${{ inputs.addon_path }} && bats tests
 
-    # keepalive-workflow adds a dummy commit if there's no other action here, keeps
-    # GitHub from turning off tests after 60 days
-    - uses: gautamkrishnar/keepalive-workflow@v1
+    # keepalive-workflow keeps GitHub from turning off tests after 60 days
+    - uses: gautamkrishnar/keepalive-workflow@v2
       if: always() && matrix.ddev_version == 'stable' && inputs.keepalive == 'true'
       with:
-        commit_message: "chore(*): Automated commit to keep the repository active"
         time_elapsed: ${{ inputs.keepalive_time_elapsed }}
 
 branding:

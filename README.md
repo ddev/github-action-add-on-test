@@ -115,7 +115,7 @@ If enabled, action will use [keepalive-workflow action](https://github.com/gauta
 
 ```yaml
 permissions:
-  contents: write
+  actions: write
 ```
 
 Not required.
@@ -188,7 +188,7 @@ on:
         default: false
 
 permissions:
-  contents: write
+  actions: write
 
 jobs:
   tests:
@@ -202,7 +202,7 @@ jobs:
 
     steps:
 
-    - uses: ddev/github-action-add-on-test@v1
+    - uses: ddev/github-action-add-on-test@v2
       with:
         ddev_version: ${{ matrix.ddev_version }}
         token: ${{ secrets.GITHUB_TOKEN }}

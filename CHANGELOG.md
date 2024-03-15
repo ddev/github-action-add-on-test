@@ -11,6 +11,17 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.0.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.0.0) - 2024-03-??
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v1.2.0...v2.0.0)
+
+### Changed
+
+- **Breaking change**: Use `gautamkrishnar/keepalive-workflow@v2` to avoid dummy commit. This change requires 
+  modifying permission from `content: write` to `actions: write` in the main workflow.
+
+---
+
 ## [v1.2.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v1.2.0) - 2024-02-19
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v1.1.1...v1.2.0)
