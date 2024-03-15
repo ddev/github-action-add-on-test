@@ -30,7 +30,7 @@ _We will suppose here that you want to test your add-on with the stable version 
 You can add the following step in your workflow:
 
 ```yaml
-- uses: ddev/github-action-add-on-test@v1
+- uses: ddev/github-action-add-on-test@v2
   with:
     ddev_version: "stable"
     token: ${{ secrets.GITHUB_TOKEN }}
