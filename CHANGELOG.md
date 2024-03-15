@@ -18,7 +18,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 ### Changed
 
 - **Breaking change**: Use `gautamkrishnar/keepalive-workflow@v2` to avoid dummy commit. This change requires 
-  modifying permission from `content: write` to `actions: write` in the main workflow.
+  modifying permission from `contents: write` to `actions: write` in the main workflow.
 
 ---
 
