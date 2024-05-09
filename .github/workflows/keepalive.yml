@@ -4,7 +4,7 @@ on:
     - cron: "0 3 * * 4"
 
 permissions:
-  contents: write
+  actions: write
 
 jobs:
   keep-alive:
