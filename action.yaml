@@ -33,9 +33,9 @@ inputs:
     default: true
 
   keepalive_time_elapsed:
-    description: 'Time elapsed from the previous commit to trigger a new automated commit (in days)'
+    description: 'Time elapsed from the most recent commit to hit API and prevent expiration (in days)'
     required: false
-    default: 55
+    default: 45
 
   debug_enabled:
     type: boolean
