@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.0.1](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.0.1) - 2024-05-22
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.0.0...v2.0.1)
+
+### Fixed
+
+- Shorten the default `keepalive_time_elapsed` value to `"0"` day ([PR #31](https://github.com/ddev/github-action-add-on-test/pull/31))
+
+---
+
 ## [v2.0.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.0.0) - 2024-03-15
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v1.2.0...v2.0.0)

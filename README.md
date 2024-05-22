@@ -133,7 +133,7 @@ Will be used as the `time_elapsed` key of the  [keepalive-workflow action](https
 
 Not required.
 
-Default: `55`.
+Default: `"0"`.
 
 ---
 
