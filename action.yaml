@@ -108,7 +108,7 @@ runs:
 
     # keepalive-workflow keeps GitHub from turning off tests after 60 days
     - uses: gautamkrishnar/keepalive-workflow@v2
-      if: always() && matrix.ddev_version == 'stable' && inputs.keepalive == 'true'
+      if: always() && matrix.ddev_version == 'stable' && inputs.keepalive == 'true' && github.event_name == 'schedule'
       with:
         time_elapsed: ${{ inputs.keepalive_time_elapsed }}
 
