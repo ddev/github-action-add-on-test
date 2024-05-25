@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.0.2](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.0.2) - 2024-05-25
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.0.1...v2.0.2)
+
+### Fixed
+
+- Run keepalive step only for scheduled run ([PR #33](https://github.com/ddev/github-action-add-on-test/pull/33))
+
+---
+
 ## [v2.0.1](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.0.1) - 2024-05-22
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.0.0...v2.0.1)
