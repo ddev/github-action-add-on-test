@@ -107,9 +107,12 @@ runs:
         DDEV_NO_INSTRUMENTATION: "true"
         # Use test_command input if provided
         TEST_COMMAND_INPUT: ${{ inputs.test_command }}
+        # Use the addon path
+        ADDON_PATH: ${{ inputs.addon_path }}
       shell: bash
-      # Using set +H to avoid history expansion in bash when using ! in test_command
+      # Use of "set +H" to ensure that bash history expansion is disabled so that ! can be used in test command
       run: |
+        set +H
         if [ -n "$TEST_COMMAND_INPUT" ]; then
           TEST_COMMAND="$TEST_COMMAND_INPUT"
         elif [ "${{ github.event_name }}" == "pull_request" ]; then
@@ -117,8 +120,8 @@ runs:
         else
           TEST_COMMAND="bats tests"
         fi
-        set +H
-        cd ${{ inputs.addon_path }} && $TEST_COMMAND
+        echo "Running: $TEST_COMMAND in $ADDON_PATH"
+        cd $ADDON_PATH && $TEST_COMMAND
 
     # keepalive-workflow keeps GitHub from turning off tests after 60 days
     - uses: gautamkrishnar/keepalive-workflow@v2
