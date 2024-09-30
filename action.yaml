@@ -3,7 +3,6 @@ author: "Julien Loizelet"
 description: "A Github Action to run DDEV add-on tests"
 
 inputs:
-
   ddev_version:
     type: choice
     required: false
@@ -14,49 +13,53 @@ inputs:
       - "HEAD"
 
   addon_repository:
-    description: 'Repository of the tested addon'
+    description: "Repository of the tested addon"
     required: true
 
   addon_ref:
-    description: 'Repository ref of the tested addon'
+    description: "Repository ref of the tested addon"
     required: true
 
   addon_path:
-    description: 'Path to clone the addon'
+    description: "Path to clone the addon"
     required: false
-    default: './'
+    default: "./"
 
   keepalive:
     type: boolean
-    description: 'Keeps GitHub from turning off tests after 60 days'
+    description: "Keeps GitHub from turning off tests after 60 days"
     required: false
     default: true
 
   keepalive_time_elapsed:
-    description: 'Time elapsed from the most recent commit to hit API and prevent expiration (in days)'
+    description: "Time elapsed from the most recent commit to hit API and prevent expiration (in days)"
     required: false
     default: "0"
 
   debug_enabled:
     type: boolean
-    description: Debug with tmate
+    description: "Debug with tmate"
     required: false
     default: false
 
   disable_checkout_action:
     type: boolean
-    description: Disable addon checkout action
+    description: "Disable addon checkout action"
     required: false
     default: false
 
   token:
-    description: 'A Github PAT'
+    description: "A Github PAT"
     required: true
+
+  test_command:
+    description: "Test command to run"
+    required: false
+    default: ""
 
 runs:
   using: "composite"
   steps:
-
     - uses: Homebrew/actions/setup-homebrew@master
 
     - name: Environment setup
@@ -102,9 +105,20 @@ runs:
         DDEV_NONINTERACTIVE: "true"
         # Don't send telemetry to amplitude
         DDEV_NO_INSTRUMENTATION: "true"
+        # Use test_command input if provided
+        TEST_COMMAND_INPUT: ${{ inputs.test_command }}
 
       shell: bash
-      run: cd ${{ inputs.addon_path }} && bats tests
+      run: |
+        if [ -n "$TEST_COMMAND_INPUT" ]; then
+          TEST_COMMAND="$TEST_COMMAND_INPUT"
+        elif [ "${{ github.event_name }}" == "pull_request" ]; then
+          TEST_COMMAND="bats tests --filter-tags !release"
+        else
+          TEST_COMMAND="bats tests"
+        fi
+        set +H
+        cd ${{ inputs.addon_path }} && $TEST_COMMAND
 
     # keepalive-workflow keeps GitHub from turning off tests after 60 days
     - uses: gautamkrishnar/keepalive-workflow@v2
