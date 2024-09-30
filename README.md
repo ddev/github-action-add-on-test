@@ -1,16 +1,18 @@
 # DDEV add-on test action
 
 ---
+
 > A GitHub action to run tests on a DDEV add-on.
+
 ---
 
 [![Version](https://img.shields.io/github/v/release/ddev/github-action-add-on-test)](https://github.com/ddev/github-action-add-on-test/releases)
 ![project is maintained](https://img.shields.io/maintenance/yes/2024.svg)
 [![tests](https://github.com/ddev/github-action-add-on-test/actions/workflows/add-ons-test.yml/badge.svg)](https://github.com/ddev/github-action-add-on-test/actions/workflows/add-ons-test.yml)
 
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 **Table of Contents**
 
 - [Quick start](#quick-start)
@@ -44,12 +46,12 @@ This step will install the latest stable version of DDEV and run `bats tests` co
 
 ## Inputs
 
-
 ### Available keys
 
 The following keys are available as `step.with` keys:
 
 ---
+
 - `ddev_version` (_String_)
 
 DDEV version that will be installed before your tests.
@@ -74,13 +76,12 @@ Example: `${{ secrets.GITHUB_TOKEN }}`.
 
 - `addon_repository`(_String_)
 
-GitHub repository of the tested addon (`{owner}/{repo}`). Will be used as the `repository` key during a [checkout 
+GitHub repository of the tested addon (`{owner}/{repo}`). Will be used as the `repository` key during a [checkout
 action](https://github.com/actions/checkout#usage)
 
 Required.
 
 Example: `${{ env.GITHUB_REPOSITORY }}`.
-
 
 ---
 
@@ -96,7 +97,7 @@ Example: `${{ env.GITHUB_REF }}`.
 
 - `addon_path`(_String_)
 
-Path (relative to `$GITHUB_WORKSPACE` ) where the addon will be cloned by a checkout action. Will be used as the `path` 
+Path (relative to `$GITHUB_WORKSPACE` ) where the addon will be cloned by a checkout action. Will be used as the `path`
 key of the [checkout action](https://github.com/actions/checkout#usage)
 
 Not required.
@@ -107,7 +108,7 @@ Default: `./`
 
 - `keepalive` (_Boolean_)
 
-Keeps GitHub from turning off tests after 60 days. 
+Keeps GitHub from turning off tests after 60 days.
 
 If enabled, action will use [keepalive-workflow action](https://github.com/gautamkrishnar/keepalive-workflow) when `ddev_version` has been set to `stable`.
 
@@ -124,19 +125,17 @@ Default: `true`.
 
 ---
 
-
 - `keepalive_time_elapsed` (_String_)
 
 Time elapsed from the previous commit to keep the repository active using GitHub API (in days).
 
-Will be used as the `time_elapsed` key of the  [keepalive-workflow action](https://github.com/gautamkrishnar/keepalive-workflow).
+Will be used as the `time_elapsed` key of the [keepalive-workflow action](https://github.com/gautamkrishnar/keepalive-workflow).
 
 Not required.
 
 Default: `"0"`.
 
 ---
-
 
 - `debug_enabled` (_Boolean_)
 
@@ -158,27 +157,38 @@ Default: `false`.
 
 ---
 
+- `test_command` (_String_)
+
+If you want to run a customized test command, you can use this input.
+
+If it's empty, the test command will be `bats tests --filter-tags !release` during a pull request workflow and `bats tests` otherwise.
+
+Not required.
+
+Default: `""`.
+
+---
+
 ## Usage
 
 ### Test your DDEV add-on
 
-If your add-on is based on the [DDEV add-on template repository](https://github.com/ddev/ddev-addon-template), you 
+If your add-on is based on the [DDEV add-on template repository](https://github.com/ddev/ddev-addon-template), you
 should have a tests folder containing a `test.bats` file.
 
-Using this GitHub action, a  `.github/workflows/tests.yml` file could have the following content: 
-
+Using this GitHub action, a `.github/workflows/tests.yml` file could have the following content:
 
 ```yaml
 name: tests
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
     paths-ignore:
-      - '**.md'
+      - "**.md"
 
   schedule:
-  - cron: '25 08 * * *'
+    - cron: "25 08 * * *"
 
   workflow_dispatch:
     inputs:
@@ -192,7 +202,6 @@ permissions:
 
 jobs:
   tests:
-
     strategy:
       matrix:
         ddev_version: [stable, HEAD]
@@ -201,16 +210,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-    - uses: ddev/github-action-add-on-test@v2
-      with:
-        ddev_version: ${{ matrix.ddev_version }}
-        token: ${{ secrets.GITHUB_TOKEN }}
-        debug_enabled: ${{ github.event.inputs.debug_enabled }}
-        addon_repository: ${{ env.GITHUB_REPOSITORY }}
-        addon_ref: ${{ env.GITHUB_REF }}
+      - uses: ddev/github-action-add-on-test@v2
+        with:
+          ddev_version: ${{ matrix.ddev_version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          debug_enabled: ${{ github.event.inputs.debug_enabled }}
+          addon_repository: ${{ env.GITHUB_REPOSITORY }}
+          addon_ref: ${{ env.GITHUB_REF }}
 ```
-
 
 ## License
 
@@ -219,6 +226,5 @@ jobs:
 ## Contribute
 
 Anyone is welcome to submit a pull request to this repository.
-
 
 **Contributed and maintained by [julienloizelet](https://github.com/julienloizelet)**

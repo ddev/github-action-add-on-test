@@ -107,8 +107,8 @@ runs:
         DDEV_NO_INSTRUMENTATION: "true"
         # Use test_command input if provided
         TEST_COMMAND_INPUT: ${{ inputs.test_command }}
-
       shell: bash
+      # Using set +H to avoid history expansion in bash when using ! in test_command
       run: |
         if [ -n "$TEST_COMMAND_INPUT" ]; then
           TEST_COMMAND="$TEST_COMMAND_INPUT"
