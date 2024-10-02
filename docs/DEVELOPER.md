@@ -11,6 +11,7 @@
   - [Allowed message `type` values](#allowed-message-type-values)
   - [Squash and merge pull request](#squash-and-merge-pull-request)
 - [Update documentation table of contents](#update-documentation-table-of-contents)
+- [Release process](#release-process)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
