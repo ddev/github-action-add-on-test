@@ -27,7 +27,6 @@ jobs:
           - ddev/ddev-adminer
           - ddev/ddev-redis
           - ddev/ddev-solr
-          - ddev/ddev-sqlsrv
           - ddev/ddev-pdfreactor
           - ddev/ddev-memcached
           - ddev/ddev-cron
