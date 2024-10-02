@@ -8,8 +8,6 @@ on:
   pull_request:
     paths-ignore:
       - "**.md"
-  schedule:
-    - cron: "25 08 * * THU"
   workflow_dispatch:
 
 permissions:

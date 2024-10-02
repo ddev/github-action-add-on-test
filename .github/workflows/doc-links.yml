@@ -1,13 +1,20 @@
+name: Documentation links
+
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-name: Markdown files test and update
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+
 jobs:
-  markdown-test-and-update:
-    name: Markdown files test and update
+  markdown-test-links:
+    name: Markdown test links
     runs-on: ubuntu-latest
     steps:
       - name: Clone sources
@@ -30,10 +37,3 @@ jobs:
           gem install awesome_bot
           cd sources
           awesome_bot README.md --skip-save-results --allow-dupe --base-url http://localhost:8080/ --white-list ddev.site
-
-      - uses: technote-space/toc-generator@v4
-        with:
-          MAX_HEADER_LEVEL: 3
-          TARGET_PATHS: "README.md"
-          CHECK_ONLY_DEFAULT_BRANCH: true
-          CREATE_PR: true
