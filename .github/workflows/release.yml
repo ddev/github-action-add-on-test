@@ -2,17 +2,11 @@ name: Create Release
 # example: gh workflow run release.yml -f tag_name=v1.1.4
 on:
   workflow_dispatch:
-    branches:
-      - main
     inputs:
       tag_name:
         description: Tag name
         type: string
         required: true
-      first-release:
-        type: boolean
-        description: First release
-        default: false
 
 jobs:
   create-release:
@@ -22,36 +16,41 @@ jobs:
       contents: write
 
     outputs:
-      version_number: ${{ steps.set-outputs.outputs.version_number }}
-      major_tag: ${{ steps.set-outputs.outputs.major_tag }}
+      version_number: ${{ steps.set-version-number.outputs.version_number }}
+      major_tag: ${{ steps.set-major-tag.outputs.major_tag }}
+
+    env:
+      TAG_NAME: ${{ github.event.inputs.tag_name }}
 
     steps:
       - name: Check naming convention
         run: |
-          VERIF=$(echo ${{ github.event.inputs.tag_name }} | grep -E "^v([0-9]{1,}\.)([0-9]{1,}\.)([0-9]{1,})(-(alpha|beta)\.[0-9]{1,})?$")
+          VERIF=$(echo ${{ env.TAG_NAME }} | grep -E "^v([0-9]{1,}\.)([0-9]{1,}\.)([0-9]{1,})(-(alpha|beta)\.[0-9]{1,})?$")
           if [ ! ${VERIF} ]
           then
-            echo "Tag name '${{ github.event.inputs.tag_name }}' does not comply with naming convention vX.Y.Z"
+            echo "Tag name '${{ env.TAG_NAME }}' does not comply with naming convention vX.Y.Z"
             exit 1
           fi
 
       - name: Set version number with v
+        id: set-version-number
         run: |
-          echo "VERSION_NUMBER=$(echo ${{ github.event.inputs.tag_name }})" >> $GITHUB_ENV
+          echo "version_number=$(echo ${{ env.TAG_NAME }})" >> $GITHUB_OUTPUT
 
       - name: Set major tag with v
+        id: set-major-tag
         run: |
-          echo "MAJOR_TAG=$(echo ${{ env.VERSION_NUMBER }} | cut -d. -f1)" >> $GITHUB_ENV
+          echo "major_tag=$(echo ${{ steps.set-version-number.outputs.version_number }} | cut -d. -f1)" >> $GITHUB_OUTPUT
 
       - name: Clone sources
         uses: actions/checkout@v4
 
-      - name: Check version ${{ env.VERSION_NUMBER }} consistency in CHANGELOG and README
+      - name: Check version consistency in CHANGELOG and README
         run: |
           # Check top ## [VERSION_NUMBER](GITHUB_URL/releases/tag/VERSION_NUMBER) - yyyy-mm-dd in CHANGELOG.md
           CURRENT_DATE=$(date +'%Y-%m-%d')
           CHANGELOG_VERSION=$(grep -o -E "## \[(.*)\].* - $CURRENT_DATE"  CHANGELOG.md | head -1 | sed 's/ //g')
-          if [[ $CHANGELOG_VERSION == "##[${{ env.VERSION_NUMBER }}]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/${{ env.VERSION_NUMBER }})-$CURRENT_DATE" ]]
+          if [[ $CHANGELOG_VERSION == "##[${{ steps.set-version-number.outputs.version_number }}]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/${{ steps.set-version-number.outputs.version_number }})-$CURRENT_DATE" ]]
           then
             echo "CHANGELOG VERSION OK"
           else
@@ -60,26 +59,23 @@ jobs:
           fi
 
           # Check top [_Compare with previous release_](GITHUB_URL/compare/vLAST_TAG...VERSION_NUMBER) in CHANGELOG.md
-          if [[ ${{ github.event.inputs.first-release }} != "true" ]]
+          COMPARISON=$(grep -oP "\/compare\/\K(.*)$" CHANGELOG.md | head -1)
+          LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/latest | grep -oP "\/tag\/\K(.*)$")
+          if [[ $COMPARISON == "$LAST_TAG...${{ steps.set-version-number.outputs.version_number }})" ]]
           then
-            COMPARISON=$(grep -oP "\/compare\/\K(.*)$" CHANGELOG.md | head -1)
-            LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/latest | grep -oP "\/tag\/\K(.*)$")
-            if [[ $COMPARISON == "$LAST_TAG...${{ env.VERSION_NUMBER }})" ]]
-            then
-              echo "VERSION COMPARISON OK"
-            else
-              echo "VERSION COMPARISON KO"
-              echo $COMPARISON
-              echo "$LAST_TAG...${{ env.VERSION_NUMBER }})"
-              exit 1
-            fi
+            echo "VERSION COMPARISON OK"
+          else
+            echo "VERSION COMPARISON KO"
+            echo $COMPARISON
+            echo "$LAST_TAG...${{ steps.set-version-number.outputs.version_number }})"
+            exit 1
           fi
 
           # Check first major tag uses in README
           README_VERSION=$(grep -E "$GITHUB_REPOSITORY@v(.*)"  README.md | sed 's/ //g' | head -1)
           echo $README_VERSION
-          echo "-uses:$GITHUB_REPOSITORY@v${{ env.MAJOR_TAG }}"
-          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ env.MAJOR_TAG }}" ]]
+          echo "-uses:$GITHUB_REPOSITORY@v${{ steps.set-major-tag.outputs.major_tag }}"
+          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ steps.set-major-tag.outputs.major_tag }}" ]]
           then
               echo "Major tag in README.md: OK"
           else
@@ -90,8 +86,8 @@ jobs:
           # Check second major tags uses in README
           README_VERSION=$(grep -E "$GITHUB_REPOSITORY@v(.*)"  README.md | sed 's/ //g' | tail -1)
           echo $README_VERSION
-          echo "-uses:$GITHUB_REPOSITORY@v${{ env.MAJOR_TAG }}"
-          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ env.MAJOR_TAG }}" ]]
+          echo "-uses:$GITHUB_REPOSITORY@v${{ steps.set-major-tag.outputs.major_tag }}"
+          if [[ $README_VERSION == "-uses:$GITHUB_REPOSITORY@${{ steps.set-major-tag.outputs.major_tag }}" ]]
           then
               echo "Major tag in README.md: OK"
           else
@@ -99,7 +95,7 @@ jobs:
               exit 1
           fi
 
-      - name: Create Tag ${{ github.event.inputs.tag_name }}
+      - name: Create Tag
         uses: actions/github-script@v7
         with:
           github-token: ${{ github.token }}
@@ -107,30 +103,24 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "refs/tags/${{ github.event.inputs.tag_name }}",
+              ref: "refs/tags/${{ env.TAG_NAME }}",
               sha: context.sha
             })
 
       - name: Prepare release notes
         run: |
           # Retrieve release body and remove ---
-          VERSION_RELEASE_NOTES=$(awk -v ver="[${{ env.VERSION_NUMBER }}]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/${{ env.VERSION_NUMBER }})" '/^## / { if (p) { exit }; if ($2 == ver) { p=1; next} } p && NF' CHANGELOG.md | sed ':a;N;$!ba;s/\n---/ /g')
+          VERSION_RELEASE_NOTES=$(awk -v ver="[${{ steps.set-version-number.outputs.version_number }}]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/tag/${{ steps.set-version-number.outputs.version_number }})" '/^## / { if (p) { exit }; if ($2 == ver) { p=1; next} } p && NF' CHANGELOG.md | sed ':a;N;$!ba;s/\n---/ /g')
           echo "$VERSION_RELEASE_NOTES" >> CHANGELOG.txt
 
-      - name: Create release ${{ env.VERSION_NUMBER }}
+      - name: Create release ${{ steps.set-version-number.outputs.version_number }}
         uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.txt
-          name: ${{ env.VERSION_NUMBER }}
-          tag_name: ${{ github.event.inputs.tag_name }}
+          name: ${{ steps.set-version-number.outputs.version_number }}
+          tag_name: ${{ env.TAG_NAME }}
           draft: false
           prerelease: false
-
-      - name: Set outputs
-        id: set-outputs
-        run: |
-          echo "version_number=${{ env.VERSION_NUMBER }}" >> $GITHUB_OUTPUT
-          echo "major_tag=${{ env.MAJOR_TAG }}" >> $GITHUB_OUTPUT
 
   update-major-tag:
     name: Update major tag
