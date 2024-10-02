@@ -11,6 +11,20 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.1.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.1.0) - 2024-10-02
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.0.2...v2.1.0)
+
+### Changed
+
+- Exclude "release" tagged tests for pull request workflow ([PR #34](https://github.com/ddev/github-action-add-on-test/pull/34))
+
+### Added
+
+- Add `test_command` input ([PR #34](https://github.com/ddev/github-action-add-on-test/pull/34))
+
+---
+
 ## [v2.0.2](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.0.2) - 2024-05-25
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.0.1...v2.0.2)
@@ -37,7 +51,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Changed
 
-- **Breaking change**: Use `gautamkrishnar/keepalive-workflow@v2` to avoid dummy commit. This change requires 
+- **Breaking change**: Use `gautamkrishnar/keepalive-workflow@v2` to avoid dummy commit. This change requires
   modifying permission from `contents: write` to `actions: write` in the main workflow.
 
 ---
