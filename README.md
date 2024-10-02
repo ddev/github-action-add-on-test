@@ -10,10 +10,10 @@
 ![project is maintained](https://img.shields.io/maintenance/yes/2024.svg)
 [![tests](https://github.com/ddev/github-action-add-on-test/actions/workflows/add-ons-test.yml/badge.svg)](https://github.com/ddev/github-action-add-on-test/actions/workflows/add-ons-test.yml)
 
+**Table of Contents**
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-**Table of Contents**
 
 - [Quick start](#quick-start)
 - [Inputs](#inputs)
@@ -226,5 +226,7 @@ jobs:
 ## Contribute
 
 Anyone is welcome to submit a pull request to this repository.
+
+For more details on development processes, please read the [developer guide](./docs/DEVELOPER.md).
 
 **Contributed and maintained by [julienloizelet](https://github.com/julienloizelet)**
