@@ -66,8 +66,8 @@ runs:
       shell: bash
       run: |
         # For bats-assert and friends
-        brew tap kaos/shell >/dev/null 2>&1
-        brew install bats-core bats-file bats-assert bats-support jq mkcert yq >/dev/null 2>&1
+        brew tap kaos/shell >/dev/null
+        brew install bats-core bats-file bats-assert bats-support jq mkcert yq >/dev/null
         mkcert -install
 
     - uses: actions/checkout@v4
@@ -80,12 +80,12 @@ runs:
     - name: Use ddev stable
       shell: bash
       if: inputs.ddev_version == 'stable'
-      run: brew install ddev/ddev/ddev >/dev/null 2>&1
+      run: brew install ddev/ddev/ddev >/dev/null
 
     - name: Use ddev HEAD
       shell: bash
       if: inputs.ddev_version == 'HEAD'
-      run: brew install --HEAD ddev/ddev/ddev >/dev/null 2>&1
+      run: brew install --HEAD ddev/ddev/ddev >/dev/null
 
     - name: Download docker images
       shell: bash
