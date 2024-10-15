@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.2.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.2.0) - 2024-10-15
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.1.0...v2.2.0)
+
+### Changed
+
+- Quiet down the `brew` installs ([PR #35](https://github.com/ddev/github-action-add-on-test/pull/35))
+
+---
+
 ## [v2.1.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.1.0) - 2024-10-02
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.0.2...v2.1.0)
