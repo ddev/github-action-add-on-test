@@ -161,7 +161,7 @@ Default: `false`.
 
 If you want to run a customized test command, you can use this input.
 
-If it's empty, the test command will be `bats tests --filter-tags !release` during a pull request workflow and `bats tests` otherwise.
+If it's empty, the test command will be `bats tests --filter-tags !release` during _push_ or _pull request_ workflows and `bats tests` otherwise.
 
 Not required.
 

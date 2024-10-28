@@ -109,16 +109,23 @@ runs:
         TEST_COMMAND_INPUT: ${{ inputs.test_command }}
         # Use the addon path
         ADDON_PATH: ${{ inputs.addon_path }}
+        # Use the event name
+        GITHUB_EVENT_NAME: ${{ github.event_name }}
       shell: bash
       # Use of "set +H" to ensure that bash history expansion is disabled so that ! can be used in test command
       run: |
         set +H
         if [ -n "$TEST_COMMAND_INPUT" ]; then
           TEST_COMMAND="$TEST_COMMAND_INPUT"
-        elif [ "${{ github.event_name }}" == "pull_request" ]; then
-          TEST_COMMAND="bats tests --filter-tags !release"
         else
-          TEST_COMMAND="bats tests"
+          case "$GITHUB_EVENT_NAME" in
+            "push"|"pull_request")
+              TEST_COMMAND="bats tests --filter-tags !release"
+              ;;
+            *)
+              TEST_COMMAND="bats tests"
+              ;;
+          esac
         fi
         echo "Running: $TEST_COMMAND in $ADDON_PATH"
         cd $ADDON_PATH && $TEST_COMMAND
