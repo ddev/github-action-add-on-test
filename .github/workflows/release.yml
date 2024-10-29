@@ -141,14 +141,8 @@ jobs:
         run: git push origin ${{ needs.create-release.outputs.major_tag }} --force
 
   run-test:
-    name: Run test for release
-    runs-on: ubuntu-latest
+    name: Run test on add-ons
     needs: [create-release, update-major-tag]
-    permissions:
-      contents: read
-
-    steps:
-      - name: Test add-ons
-        uses: ./.github/workflows/add-ons-test.yml
-        with:
-          action_ref: ${{ needs.create-release.outputs.major_tag }}
+    uses: ./.github/workflows/add-ons-test.yml
+    with:
+      action_ref: ${{ needs.create-release.outputs.major_tag }}
