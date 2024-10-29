@@ -11,6 +11,19 @@ on:
   schedule:
     - cron: "25 08 * * *"
   workflow_dispatch:
+    inputs:
+      action_ref:
+        description: The ref to use for the action (tag, branch, SHA)
+        required: false
+        type: string
+        default: ""
+  workflow_call:
+    inputs:
+      action_ref:
+        description: The ref to use for the action (tag, branch, SHA)
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -22,15 +35,24 @@ jobs:
       matrix:
         ddev_version: [stable, HEAD]
         add_on:
-          - ddev/ddev-redis-commander
-          - ddev/ddev-mongo
-          - ddev/ddev-adminer
-          - ddev/ddev-redis
-          - ddev/ddev-solr
-          - ddev/ddev-pdfreactor
-          - ddev/ddev-memcached
-          - ddev/ddev-cron
-          - ddev/ddev-elasticsearch
+          - name: ddev/ddev-redis-commander
+            test_command: "bats tests"
+          - name: ddev/ddev-mongo
+            test_command: ""
+          - name: ddev/ddev-adminer
+            test_command: ""
+          - name: ddev/ddev-redis
+            test_command: ""
+          - name: ddev/ddev-solr
+            test_command: ""
+          - name: ddev/ddev-pdfreactor
+            test_command: ""
+          - name: ddev/ddev-memcached
+            test_command: ""
+          - name: ddev/ddev-cron
+            test_command: ""
+          - name: ddev/ddev-elasticsearch
+            test_command: ""
 
     name: Add-on test
     runs-on: ubuntu-latest
@@ -40,15 +62,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Retrieve last tag of add-on
+        id: last_tag
         run: |
-          echo "ADD_ON_LAST_TAG=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/${{ matrix.add_on }}/releases/latest | grep -oP "\/tag\/\K(.*)$")" >> $GITHUB_ENV
+          echo "add_on_last_tag=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/${{ matrix.add_on.name }}/releases/latest | grep -oP "\/tag\/\K(.*)$")" >> $GITHUB_OUTPUT
 
-      - name: Run add-on test (${{ matrix.ddev_version }})
-        uses: ./
+      - name: Set action ref
+        env:
+          ACTION_REF: ${{ github.event.inputs.action_ref }}
+        id: set_action_call
+        run: |
+          if [ -z "${{ env.ACTION_REF }}" ]
+          then
+            echo "action_ref=$(echo './')" >> $GITHUB_OUTPUT
+          else
+            echo "action_ref=$(echo ddev/ddev-add-on-test/@${{ env.ACTION_REF }})" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run add-on test
+        uses: jenseng/dynamic-uses@v1
         with:
-          ddev_version: ${{ matrix.ddev_version }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          addon_repository: ${{ matrix.add_on }}
-          addon_ref: ${{ env.ADD_ON_LAST_TAG }}
-          addon_path: tested-addon
-          keepalive: false
+          uses: ${{ steps.set_action_call.outputs.action_ref }}
+          with: '{"ddev_version": "${{ matrix.ddev_version }}", "token": "${{ secrets.GITHUB_TOKEN }}", "addon_repository": "${{ matrix.add_on.name }}", "addon_ref": "${{ steps.last_tag.outputs.add_on_last_tag }}", "addon_path": "tested-addon", "keepalive": false, "test_command": "${{ matrix.add_on.test_command }}" }'
