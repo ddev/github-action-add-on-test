@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.3.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.3.0) - 2024-10-29
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.2.0...v2.3.0)
+
+### Changed
+
+- Exclude "release" tagged tests for _push_ workflow ([PR #38](https://github.com/ddev/github-action-add-on-test/pull/38))
+
+---
+
 ## [v2.2.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.2.0) - 2024-10-15
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.1.0...v2.2.0)
@@ -27,7 +37,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Changed
 
-- Exclude "release" tagged tests for pull request workflow ([PR #34](https://github.com/ddev/github-action-add-on-test/pull/34))
+- Exclude "release" tagged tests for _pull request_ workflow ([PR #34](https://github.com/ddev/github-action-add-on-test/pull/34))
 
 ### Added
 
