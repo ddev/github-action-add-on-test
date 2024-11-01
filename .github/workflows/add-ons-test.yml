@@ -68,7 +68,7 @@ jobs:
 
       - name: Set action ref
         env:
-          ACTION_REF: ${{ github.event.inputs.action_ref }}
+          ACTION_REF: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.action_ref || inputs.action_ref }}
         id: set_action_call
         run: |
           if [ -z "${{ env.ACTION_REF }}" ]
