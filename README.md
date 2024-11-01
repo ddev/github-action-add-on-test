@@ -20,6 +20,7 @@
   - [Available keys](#available-keys)
 - [Usage](#usage)
   - [Test your DDEV add-on](#test-your-ddev-add-on)
+    - [`bats` tags and the `test_command` input](#bats-tags-and-the-test_command-input)
 - [License](#license)
 - [Contribute](#contribute)
 
@@ -167,6 +168,8 @@ Not required.
 
 Default: `""`.
 
+For more details, see [below](#bats-tags-and-the-test_command-input).
+
 ---
 
 ## Usage
@@ -218,6 +221,30 @@ jobs:
           addon_repository: ${{ env.GITHUB_REPOSITORY }}
           addon_ref: ${{ env.GITHUB_REF }}
 ```
+
+#### `bats` tags and the `test_command` input
+
+By default, this GitHub action is configured to exclude `release` tagged tests during _push_ and 
+_pull_request_ workflows by using the `bats tests --filter-tags '!release'` command. 
+
+For other workflows, the default command is `bats tests`, meaning all tests, regardless of their tags, will run.
+
+To tag a test with a `release` tag, add `# bats test_tags=release` above the `@test` line in your bats file:
+
+```bash
+# bats test_tags=release
+@test "install from release" {
+  ...
+  <run your test here>
+  ...
+}
+```
+
+This setup keeps release-specific tests out of everyday workflows unless you set a custom `test_command`.
+
+For more information on `bats` tags and filtering tests by tags, refer to the [bats documentation](https://bats-core.readthedocs.io/en/stable/writing-tests.html#tagging-tests).
+
+
 
 ## License
 
