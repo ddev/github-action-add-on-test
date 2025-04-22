@@ -78,7 +78,7 @@ Before publishing a new release, there are some manual steps to take:
 - Update the `CHANGELOG.md` file to the current format. The release description is based on the contents of the `CHANGELOG.md` file.
 - If the release is a major release, modify the major tag in the `README.md` file wherever necessary.
 
-Then, you have to [run the action manually from the GitHub repository](https://github.com/ddev/github-action-add-on-test/actions/workflows/release.yml)
+Then, you have to [run the action manually using `Actions -> Create Release -> Tag Name`](https://github.com/ddev/github-action-add-on-test/actions/workflows/release.yml). 
 
 Alternatively, you could use the [GitHub CLI](https://github.com/cli/cli):
 
