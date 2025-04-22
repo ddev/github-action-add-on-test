@@ -107,37 +107,6 @@ Default: `./`
 
 ---
 
-- `keepalive` (_Boolean_)
-
-Keeps GitHub from turning off tests after 60 days.
-
-If enabled, action will use [keepalive-workflow action](https://github.com/gautamkrishnar/keepalive-workflow) when `ddev_version` has been set to `stable`.
-
-**N.B.** If enabled, you have to update the permission of the main workflow to `write`:
-
-```yaml
-permissions:
-  actions: write
-```
-
-Not required.
-
-Default: `true`.
-
----
-
-- `keepalive_time_elapsed` (_String_)
-
-Time elapsed from the previous commit to keep the repository active using GitHub API (in days).
-
-Will be used as the `time_elapsed` key of the [keepalive-workflow action](https://github.com/gautamkrishnar/keepalive-workflow).
-
-Not required.
-
-Default: `"0"`.
-
----
-
 - `debug_enabled` (_Boolean_)
 
 If `true`, a tmate session will be accessible before the tests step. See [action-tmate](https://github.com/mxschmitt/action-tmate) for more details.

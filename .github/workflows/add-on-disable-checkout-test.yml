@@ -43,5 +43,4 @@ jobs:
           addon_repository: ${{ env.ADD_ON }}
           addon_ref: ${{ env.ADD_ON_REF }}
           addon_path: tested-addon
-          keepalive: false
           disable_checkout_action: true

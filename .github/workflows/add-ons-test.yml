@@ -82,4 +82,4 @@ jobs:
         uses: jenseng/dynamic-uses@v1
         with:
           uses: ${{ steps.set_action_call.outputs.action_ref }}
-          with: '{"ddev_version": "${{ matrix.ddev_version }}", "token": "${{ secrets.GITHUB_TOKEN }}", "addon_repository": "${{ matrix.add_on.name }}", "addon_ref": "${{ steps.last_tag.outputs.add_on_last_tag }}", "addon_path": "tested-addon", "keepalive": false, "test_command": "${{ matrix.add_on.test_command }}" }'
+          with: '{"ddev_version": "${{ matrix.ddev_version }}", "token": "${{ secrets.GITHUB_TOKEN }}", "addon_repository": "${{ matrix.add_on.name }}", "addon_ref": "${{ steps.last_tag.outputs.add_on_last_tag }}", "addon_path": "tested-addon", "test_command": "${{ matrix.add_on.test_command }}" }'
