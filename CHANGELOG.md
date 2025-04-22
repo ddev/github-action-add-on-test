@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.4.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.4.0) - 2025-04-22
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.3.0...v2.4.0)
+
+### Removed
+
+- Remove "Keep alive" feature as [related repository](https://github.com/gautamkrishnar/keepalive-workflow) has been disabled
+
+---
+
 ## [v2.3.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.3.0) - 2024-10-29
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.2.0...v2.3.0)

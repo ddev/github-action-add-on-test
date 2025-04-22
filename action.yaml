@@ -25,17 +25,6 @@ inputs:
     required: false
     default: "./"
 
-  keepalive:
-    type: boolean
-    description: "Keeps GitHub from turning off tests after 60 days"
-    required: false
-    default: true
-
-  keepalive_time_elapsed:
-    description: "Time elapsed from the most recent commit to hit API and prevent expiration (in days)"
-    required: false
-    default: "0"
-
   debug_enabled:
     type: boolean
     description: "Debug with tmate"
@@ -129,12 +118,6 @@ runs:
         fi
         echo "Running: $TEST_COMMAND in $ADDON_PATH"
         cd $ADDON_PATH && $TEST_COMMAND
-
-    # keepalive-workflow keeps GitHub from turning off tests after 60 days
-    - uses: gautamkrishnar/keepalive-workflow@v2
-      if: always() && matrix.ddev_version == 'stable' && inputs.keepalive == 'true' && github.event_name == 'schedule'
-      with:
-        time_elapsed: ${{ inputs.keepalive_time_elapsed }}
 
 branding:
   icon: "code"
