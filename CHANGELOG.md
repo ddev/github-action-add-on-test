@@ -15,16 +15,19 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.3.1...v2.3.2)
 
-### Minor Documentation updates
+### Fixed
+
+- Synchronize the major tag with the correct commit
 
 
 ## [v2.3.1](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.3.1) - 2025-04-22
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.3.0...v2.3.1)
 
-### Removed
+### Fixed
 
-- Remove "Keep alive" feature as [related repository](https://github.com/gautamkrishnar/keepalive-workflow) has been disabled
+- Remove "Keep alive" feature as [related repository](https://github.com/gautamkrishnar/keepalive-workflow) has been 
+  disabled and causes the action to fail ([PR #43](https://github.com/ddev/github-action-add-on-test/pull/43))
 
 ---
 
