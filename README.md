@@ -170,7 +170,7 @@ on:
         default: false
 
 permissions:
-  actions: write
+  contents: read
 
 jobs:
   tests:
