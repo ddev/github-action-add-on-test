@@ -55,7 +55,7 @@ runs:
       shell: bash
       run: |
         # For bats-assert and friends
-        brew tap kaos/shell >/dev/null
+        brew tap bats-core/bats-core >/dev/null
         brew install bats-core bats-file bats-assert bats-support jq mkcert yq >/dev/null
         mkcert -install
 
