@@ -37,6 +37,12 @@ inputs:
     required: false
     default: false
 
+  preserve_testdir:
+    type: boolean
+    description: "Preserve the test directory during tearDown()"
+    required: false
+    default: false
+
   token:
     description: "A Github PAT"
     required: true

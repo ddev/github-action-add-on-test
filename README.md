@@ -36,6 +36,7 @@ You can add the following step in your workflow:
 - uses: ddev/github-action-add-on-test@v2
   with:
     ddev_version: "stable"
+    preserve_testdir: true
     token: ${{ secrets.GITHUB_TOKEN }}
     addon_repository: ${{ env.GITHUB_REPOSITORY }}
     addon_ref: ${{ env.GITHUB_REF }}
@@ -124,6 +125,12 @@ If you need to check out your add-on source code with some specific inputs (`sub
 Not required.
 
 Default: `false`.
+
+---
+
+- `preserve_testdir` (_Boolean_)
+
+Set to `true` in order to avoid deleting the test directory. useful for debugging and artifacts.
 
 ---
 
