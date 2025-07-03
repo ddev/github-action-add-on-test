@@ -215,16 +215,20 @@ For more information on `bats` tags and filtering tests by tags, refer to the [b
 
 #### Preserving Artifacts
 
-Github Actions provides a UI for browsing test artifacts. Configure your job as below.
+GitHub Actions provides a UI for browsing test artifacts. Configure your job as shown below:
 
 ```yaml
+jobs:
+  tests:
+    steps:
+      ...
 
-- name: Upload artifacts
-  uses: actions/upload-artifact@v4
-  with:
-    name: artifact-name
-    path: |
-      ${{ env.TESTDIR }}/path/to/file
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact-name
+          path: |
+          ${{ env.TESTDIR }}/path/to/file
 ```
 
 ## License
