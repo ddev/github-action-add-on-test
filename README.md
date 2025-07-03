@@ -228,7 +228,7 @@ jobs:
         with:
           name: artifact-name
           path: |
-          ${{ env.TESTDIR }}/path/to/file
+            ${{ env.TESTDIR }}/path/to/file
 ```
 
 ## License
