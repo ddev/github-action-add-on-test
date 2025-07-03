@@ -36,7 +36,6 @@ You can add the following step in your workflow:
 - uses: ddev/github-action-add-on-test@v2
   with:
     ddev_version: "stable"
-    preserve_testdir: true
     token: ${{ secrets.GITHUB_TOKEN }}
     addon_repository: ${{ env.GITHUB_REPOSITORY }}
     addon_ref: ${{ env.GITHUB_REF }}
@@ -128,12 +127,6 @@ Default: `false`.
 
 ---
 
-- `preserve_testdir` (_Boolean_)
-
-Set to `true` in order to avoid deleting the test directory. useful for debugging and artifacts.
-
----
-
 - `test_command` (_String_)
 
 If you want to run a customized test command, you can use this input.
@@ -220,7 +213,19 @@ This setup keeps release-specific tests out of everyday workflows unless you set
 
 For more information on `bats` tags and filtering tests by tags, refer to the [bats documentation](https://bats-core.readthedocs.io/en/stable/writing-tests.html#tagging-tests).
 
+#### Preserving Artifacts
 
+Github Actions provides a UI for browsing test artifacts. Configure your job as below.
+
+```yaml
+
+- name: Upload artifacts
+  uses: actions/upload-artifact@v4
+  with:
+    name: artifact-name
+    path: |
+      ${{ env.TESTDIR }}/path/to/file
+```
 
 ## License
 
