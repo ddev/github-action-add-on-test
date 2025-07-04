@@ -213,7 +213,37 @@ This setup keeps release-specific tests out of everyday workflows unless you set
 
 For more information on `bats` tags and filtering tests by tags, refer to the [bats documentation](https://bats-core.readthedocs.io/en/stable/writing-tests.html#tagging-tests).
 
+#### Preserving Artifacts
 
+GitHub Actions provides a UI for browsing test artifacts. To use it, store `$TESTDIR` in `$GITHUB_ENV` within your Bats tests (see [example](https://github.com/ddev/ddev-addon-template/blob/main/tests/test.bats)), and configure your job as follows:
+
+```yaml
+jobs:
+  tests:
+    steps:
+      ...
+
+      # Optionally, you may need to zip some artifacts before uploading them
+      # to fix this error: "The path for one of the files in artifact is not valid"
+      # - name: Zip artifacts that can't be processed by actions/upload-artifact
+      #   if: always()
+      #   run: |
+      #     for d in ${{ env.TESTDIR }}*/; do
+      #       if [ -d "$d/path/to/directory" ]; then
+      #         (cd "$d/path/to" && zip -r directory.zip directory)
+      #       fi
+      #     done
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact-${{ matrix.ddev_version }}
+          path: |
+            ${{ env.TESTDIR }}*/tests
+            ${{ env.TESTDIR }}*/web/*.junit.xml
+            ${{ env.TESTDIR }}*/path/to/directory.zip
+```
 
 ## License
 
