@@ -226,9 +226,9 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifact-name
+          name: artifact-name-${{ matrix.ddev_version }}
           path: |
-            ${{ env.TESTDIR }}/path/to/file
+            ${{ env.TESTDIR }}/path/to/file/or/directory
 ```
 
 ## License
