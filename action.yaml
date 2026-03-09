@@ -49,7 +49,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: Homebrew/actions/setup-homebrew@main
+    - uses: Homebrew/actions/setup-homebrew@8c478e7f5c2c2df9efba834a3568d4fe35cdb2a3 #no release tags available
 
     - name: Environment setup
       shell: bash
@@ -59,7 +59,7 @@ runs:
         brew install bats-core bats-file bats-assert bats-support jq mkcert yq >/dev/null
         mkcert -install
 
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       if: inputs.disable_checkout_action == 'false'
       with:
         repository: ${{ inputs.addon_repository }}
@@ -80,7 +80,7 @@ runs:
       shell: bash
       run: ddev debug download-images >/dev/null
 
-    - uses: mxschmitt/action-tmate@v3
+    - uses: mxschmitt/action-tmate@c0afd6f790e3a5564914980036ebf83216678101 #v3.23
       with:
         limit-access-to-actor: true
         github-token: ${{ inputs.token }}
