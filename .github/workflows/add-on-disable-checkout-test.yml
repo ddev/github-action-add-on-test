@@ -25,10 +25,10 @@ jobs:
 
     steps:
       - name: Clone current repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ env.ADD_ON }}
           ref: ${{ env.ADD_ON_REF }}
