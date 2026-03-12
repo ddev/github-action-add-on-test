@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.4.1](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.4.1) - 2026-03-12
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.4.0...v2.4.1)
+
+### Changed
+
+- Bump Homebrew/actions/setup-homebrew ([PR #59](https://github.com/ddev/github-action-add-on-test/pull/59))
+
+---
+
 ## [v2.4.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.4.0) - 2026-03-09
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.3.3...v2.4.0)
@@ -48,7 +58,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Fixed
 
-- Remove "Keep alive" feature as [related repository](https://github.com/gautamkrishnar/keepalive-workflow) has been 
+- Remove "Keep alive" feature as [related repository](https://github.com/gautamkrishnar/keepalive-workflow) has been
   disabled and causes the action to fail ([PR #43](https://github.com/ddev/github-action-add-on-test/pull/43))
 
 ---
