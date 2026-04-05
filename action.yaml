@@ -2,6 +2,10 @@ name: "DDEV add-on test"
 author: "Julien Loizelet"
 description: "A Github Action to run DDEV add-on tests"
 
+env:
+  # Work around homebrew install trying to use deprecated node 20
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 inputs:
   ddev_version:
     type: choice
