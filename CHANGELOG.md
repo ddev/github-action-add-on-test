@@ -11,7 +11,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
-## [v2.4.2](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.4.2) - 2026-03-12
+## [v2.4.2](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.4.2) - 2026-04-06
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.4.1...v2.4.2)
 
