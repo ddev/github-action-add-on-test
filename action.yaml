@@ -2,10 +2,6 @@ name: "DDEV add-on test"
 author: "Julien Loizelet"
 description: "A Github Action to run DDEV add-on tests"
 
-env:
-  # Work around homebrew install trying to use deprecated node 20
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
-
 inputs:
   ddev_version:
     type: choice
@@ -53,7 +49,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: Homebrew/actions/setup-homebrew@4cdec6dc3e14702214632b392c91a7cc283fbc8a #no release tags available
+    - uses: Homebrew/actions/setup-homebrew@675fcd27b59e54d310c5484c8c27c01d03da660c #no release tags available
 
     - name: Environment setup
       shell: bash
