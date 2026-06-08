@@ -193,8 +193,8 @@ jobs:
 
 #### `bats` tags and the `test_command` input
 
-By default, this GitHub action is configured to exclude `release` tagged tests during _push_ and 
-_pull_request_ workflows by using the `bats tests --filter-tags '!release'` command. 
+By default, this GitHub action is configured to exclude `release` tagged tests during _push_ and
+_pull_request_ workflows by using the `bats tests --filter-tags '!release'` command.
 
 For other workflows, the default command is `bats tests`, meaning all tests, regardless of their tags, will run.
 
