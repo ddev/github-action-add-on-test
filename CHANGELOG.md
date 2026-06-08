@@ -17,7 +17,7 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ### Changed
 
-- Update Homebrew formulae, bump actions ([PR #62](https://github.com/ddev/github-action-add-on-test/pull/62))
+- Update Homebrew formulae, bump actions, replace deprecated add-ons ([PR #62](https://github.com/ddev/github-action-add-on-test/pull/62))
 
 ---
 

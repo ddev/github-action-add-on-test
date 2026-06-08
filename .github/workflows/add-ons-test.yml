@@ -35,7 +35,7 @@ jobs:
       matrix:
         ddev_version: [stable, HEAD]
         add_on:
-          - name: ddev/ddev-redis-commander
+          - name: ddev/ddev-redis-insight
             test_command: "bats tests"
           - name: ddev/ddev-mongo
             test_command: ""
@@ -45,7 +45,7 @@ jobs:
             test_command: ""
           - name: ddev/ddev-solr
             test_command: ""
-          - name: ddev/ddev-pdfreactor
+          - name: ddev/ddev-nvm
             test_command: ""
           - name: ddev/ddev-memcached
             test_command: ""
