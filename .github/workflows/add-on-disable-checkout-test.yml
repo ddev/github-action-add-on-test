@@ -24,7 +24,7 @@ jobs:
 
     env:
       ADD_ON: ddev/ddev-opensearch
-      ADD_ON_REF: v2.2.1
+      ADD_ON_REF: 2.2.1
       DDEV_VERSION: stable
 
     steps:
