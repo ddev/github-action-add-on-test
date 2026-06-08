@@ -23,8 +23,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ADD_ON: JanoPL/ddev-kibana
-      ADD_ON_REF: v1.4.0
+      ADD_ON: ddev/ddev-opensearch
+      ADD_ON_REF: v2.2.1
       DDEV_VERSION: stable
 
     steps:
