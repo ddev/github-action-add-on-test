@@ -9,9 +9,13 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
 permissions:
   contents: read
 
@@ -40,4 +44,4 @@ jobs:
           gem install awesome_bot
           cd sources
           awesome_bot README.md --skip-save-results --allow-dupe --base-url http://localhost:8080/ --white-list ddev.site --allow 429
-          awesome_bot docs/*.md --skip-save-results --allow-dupe --base-url http://localhost:8080/docs/ --white-list ddev.site --allow 429 
+          awesome_bot docs/*.md --skip-save-results --allow-dupe --base-url http://localhost:8080/docs/ --white-list ddev.site --allow 429

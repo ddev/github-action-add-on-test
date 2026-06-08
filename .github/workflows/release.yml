@@ -8,6 +8,10 @@ on:
         type: string
         required: true
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   create-release:
     name: Create release
@@ -96,7 +100,7 @@ jobs:
           fi
 
       - name: Create Tag
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ github.token }}
           script: |
@@ -114,7 +118,7 @@ jobs:
           echo "$VERSION_RELEASE_NOTES" >> CHANGELOG.txt
 
       - name: Create release ${{ steps.set-version-number.outputs.version_number }}
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           body_path: CHANGELOG.txt
           name: ${{ steps.set-version-number.outputs.version_number }}
