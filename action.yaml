@@ -54,7 +54,7 @@ runs:
     - name: Environment setup
       shell: bash
       run: |
-        brew bats-core bats-core/bats-core/bats-assert bats-core/bats-core/bats-file bats-core/bats-core/bats-support jq mkcert yq >/dev/null
+        brew install bats-core bats-core/bats-core/bats-assert bats-core/bats-core/bats-file bats-core/bats-core/bats-support jq mkcert yq >/dev/null
         mkcert -install
 
     - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # https://github.com/actions/checkout/commits/v6.0.3/
