@@ -49,7 +49,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: Homebrew/actions/setup-homebrew@f830e99d47c69efee99f1ddbf18a8e3144d1b93e # https://github.com/Homebrew/actions/commits/main/setup-homebrew/
+    - uses: Homebrew/actions/setup-homebrew@f830e99d47c69efee99f1ddbf18a8e3144d1b93e # https://github.com/Homebrew/actions/commits/main/setup-homebrew/ test
 
     - name: Environment setup
       shell: bash
