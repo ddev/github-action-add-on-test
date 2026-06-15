@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.4.5](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.4.5) - 2026-06-15
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.4.4...v2.4.5)
+
+### Changed
+
+- Use `setup-sandbox: true` in Homebrew ([PR #66](https://github.com/ddev/github-action-add-on-test/pull/66))
+
+---
+
 ## [v2.4.4](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.4.4) - 2026-06-11
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.4.3...v2.4.4)

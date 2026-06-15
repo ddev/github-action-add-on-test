@@ -49,15 +49,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set Homebrew env
-      shell: bash
-      run: echo "HOMEBREW_NO_SANDBOX_LINUX=1" >> $GITHUB_ENV
-
-    - uses: Homebrew/actions/setup-homebrew@f830e99d47c69efee99f1ddbf18a8e3144d1b93e # https://github.com/Homebrew/actions/commits/main/setup-homebrew/
+    - uses: Homebrew/actions/setup-homebrew@54f3c3de99e48b2646ca31230c9b6e9717dac4d4 # https://github.com/Homebrew/actions/commits/main/setup-homebrew/
+      with:
+        setup-sandbox: true
 
     - name: Environment setup
       shell: bash
       run: |
+        brew trust bats-core/bats-core
         brew install bats-core bats-core/bats-core/bats-assert bats-core/bats-core/bats-file bats-core/bats-core/bats-support jq mkcert yq >/dev/null
         mkcert -install
 
@@ -71,12 +70,16 @@ runs:
     - name: Use ddev stable
       shell: bash
       if: inputs.ddev_version == 'stable'
-      run: brew install ddev/ddev/ddev >/dev/null
+      run: |
+        brew trust ddev/ddev
+        brew install ddev/ddev/ddev >/dev/null
 
     - name: Use ddev HEAD
       shell: bash
       if: inputs.ddev_version == 'HEAD'
-      run: brew install --HEAD ddev/ddev/ddev >/dev/null
+      run: |
+        brew trust ddev/ddev
+        brew install --HEAD ddev/ddev/ddev >/dev/null
 
     - name: Download docker images
       shell: bash
