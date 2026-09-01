@@ -11,6 +11,17 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.5.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.5.0) - 2026-09-01
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.4.5...v2.5.0)
+
+### Changed
+
+- Replace `mxschmitt/action-tmate` with `owenthereal/action-upterm`, the tmate servers have been shut down ([PR #67](https://github.com/ddev/github-action-add-on-test/pull/67))
+- Reword the `debug_enabled` description to `Enable remote debugging session` so it no longer names the debugging tool ([PR #67](https://github.com/ddev/github-action-add-on-test/pull/67))
+
+---
+
 ## [v2.4.5](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.4.5) - 2026-06-15
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.4.4...v2.4.5)
