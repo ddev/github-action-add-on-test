@@ -109,7 +109,7 @@ Default: `./`
 
 - `debug_enabled` (_Boolean_)
 
-If `true`, a tmate session will be accessible before the tests step. See [action-tmate](https://github.com/mxschmitt/action-tmate) for more details.
+If `true`, the runner becomes reachable over SSH, SFTP and SCP before the tests step. See [action-upterm](https://github.com/owenthereal/action-upterm) for more details.
 
 Not required.
 
@@ -166,7 +166,7 @@ on:
     inputs:
       debug_enabled:
         type: boolean
-        description: Debug with tmate
+        description: Enable remote debugging session
         default: false
 
 permissions:

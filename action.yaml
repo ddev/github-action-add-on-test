@@ -27,7 +27,7 @@ inputs:
 
   debug_enabled:
     type: boolean
-    description: "Debug with tmate"
+    description: "Enable remote debugging session"
     required: false
     default: false
 
@@ -85,10 +85,10 @@ runs:
       shell: bash
       run: ddev debug download-images >/dev/null
 
-    - uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113 # https://github.com/mxschmitt/action-tmate/commits/v3.24/
+    - name: Setup upterm session
+      uses: owenthereal/action-upterm@47652056242288ccbebd30f836e9885d09a75365 # https://github.com/owenthereal/action-upterm/commits/v1.15.0/
       with:
         limit-access-to-actor: true
-        github-token: ${{ inputs.token }}
       if: inputs.debug_enabled == 'true'
 
     - name: Run test
