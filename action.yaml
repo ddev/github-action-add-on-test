@@ -4,13 +4,9 @@ description: "A Github Action to run DDEV add-on tests"
 
 inputs:
   ddev_version:
-    type: choice
     required: false
     default: "stable"
-    description: "DDEV Version to use"
-    options:
-      - "stable"
-      - "HEAD"
+    description: "DDEV version to use: stable, HEAD, tag:<version> or pr:<number>"
 
   addon_repository:
     description: "Repository of the tested addon"
@@ -67,23 +63,52 @@ runs:
         ref: ${{ inputs.addon_ref }}
         path: ${{ inputs.addon_path }}
 
-    - name: Use ddev stable
+    - name: Install ddev stable
       shell: bash
-      if: inputs.ddev_version == 'stable'
       run: |
         brew trust ddev/ddev
         brew install ddev/ddev/ddev >/dev/null
 
-    - name: Use ddev HEAD
+    - name: Use ddev ${{ inputs.ddev_version }}
       shell: bash
-      if: inputs.ddev_version == 'HEAD'
+      if: inputs.ddev_version != 'stable' && inputs.ddev_version != ''
+      env:
+        DDEV_VERSION: ${{ inputs.ddev_version }}
+        # Allow the download to use a GitHub token to prevent rate limiting
+        DDEV_GITHUB_TOKEN: ${{ inputs.token }}
       run: |
-        brew trust ddev/ddev
-        brew install --HEAD ddev/ddev/ddev >/dev/null
+        case "${DDEV_VERSION}" in
+          HEAD | head)
+            source_args=(--head)
+            ;;
+          tag:?*)
+            source_args=(--tag "${DDEV_VERSION#tag:}")
+            ;;
+          pr:?*)
+            source_args=(--pr "${DDEV_VERSION#pr:}")
+            ;;
+          *)
+            echo "::error::Unknown ddev_version '${DDEV_VERSION}', use stable, HEAD, tag:<version> or pr:<number>"
+            exit 1
+            ;;
+        esac
+        ddev_bin_dir="${RUNNER_TEMP}/ddev-bin"
+        ddev utility download-ddev "${source_args[@]}" --output "${ddev_bin_dir}"
+        # Prepend to PATH, ddev finds ddev-hostname there too
+        echo "${ddev_bin_dir}" >> "${GITHUB_PATH}"
+
+    - name: Show ddev version
+      shell: bash
+      run: ddev version
 
     - name: Download docker images
       shell: bash
-      run: ddev debug download-images >/dev/null
+      run: |
+        if ddev utility --help >/dev/null 2>&1; then
+          ddev utility download-images >/dev/null
+        else
+          ddev debug download-images >/dev/null
+        fi
 
     - name: Setup upterm session
       uses: owenthereal/action-upterm@47652056242288ccbebd30f836e9885d09a75365 # https://github.com/owenthereal/action-upterm/commits/v1.15.0/

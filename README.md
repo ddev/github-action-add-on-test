@@ -61,13 +61,22 @@ Not required.
 
 Default: `stable`.
 
-Allowed values are: `stable`, `HEAD`.
+Allowed values:
+
+| Value | DDEV that will be used |
+| --- | --- |
+| `stable` | Latest stable release |
+| `HEAD` | Latest `main` build |
+| `tag:v1.25.3` | A specific released version |
+| `pr:8611` | Build of `ddev/ddev` pull request 8611 |
+
+The stable release is always installed with Homebrew. For every other value, the requested build is then downloaded with [`ddev utility download-ddev`](https://docs.ddev.com/en/stable/users/usage/commands/#utility-download-ddev) and placed first in `PATH`, which takes seconds instead of compiling DDEV from source on every run.
 
 ---
 
 - `token` (_String_)
 
-A GitHub Personal Access Token used by the `debug` and `run test` steps.
+A GitHub Personal Access Token used by the DDEV download, `debug` and `run test` steps.
 
 Required.
 
