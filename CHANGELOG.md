@@ -24,6 +24,11 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 - Install `ddev_version: HEAD` by downloading the latest `main` build with `ddev utility download-ddev` instead of building it from source with `brew install --HEAD`, which is much faster. If the download fails, for example when nightly.link is down, the Homebrew source build is used as a fallback ([PR #68](https://github.com/ddev/github-action-add-on-test/pull/68))
 - Download the Docker images with `ddev utility download-images`, falling back to `ddev debug download-images` for DDEV older than v1.24.9 ([PR #68](https://github.com/ddev/github-action-add-on-test/pull/68))
+- Bump `actions/checkout` to v7.0.1 and `Homebrew/actions/setup-homebrew` ([PR #69](https://github.com/ddev/github-action-add-on-test/pull/69))
+
+### Removed
+
+- Remove `setup-sandbox: true` from `Homebrew/actions/setup-homebrew`, the input is gone now that Homebrew's Linux sandbox uses Landlock instead of Bubblewrap ([PR #69](https://github.com/ddev/github-action-add-on-test/pull/69))
 
 ---
 

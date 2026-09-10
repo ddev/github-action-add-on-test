@@ -55,7 +55,7 @@ jobs:
 
     steps:
       - name: Clone current repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Retrieve last tag of add-on
         id: last_tag
