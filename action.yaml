@@ -45,9 +45,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: Homebrew/actions/setup-homebrew@54f3c3de99e48b2646ca31230c9b6e9717dac4d4 # https://github.com/Homebrew/actions/commits/main/setup-homebrew/
-      with:
-        setup-sandbox: true
+    - uses: Homebrew/actions/setup-homebrew@23156a3d9674d7f52f74f1a58979ec4d77847166 # https://github.com/Homebrew/actions/commits/main/setup-homebrew/
 
     - name: Environment setup
       shell: bash
@@ -56,7 +54,7 @@ runs:
         brew install bats-core bats-core/bats-core/bats-assert bats-core/bats-core/bats-file bats-core/bats-core/bats-support jq mkcert yq >/dev/null
         mkcert -install
 
-    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # https://github.com/actions/checkout/commits/v6.0.3/
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # https://github.com/actions/checkout/commits/v7.0.1/
       if: inputs.disable_checkout_action == 'false'
       with:
         repository: ${{ inputs.addon_repository }}
