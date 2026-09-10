@@ -93,9 +93,16 @@ runs:
             ;;
         esac
         ddev_bin_dir="${RUNNER_TEMP}/ddev-bin"
-        ddev utility download-ddev "${source_args[@]}" --output "${ddev_bin_dir}"
-        # Prepend to PATH, ddev finds ddev-hostname there too
-        echo "${ddev_bin_dir}" >> "${GITHUB_PATH}"
+        if ddev utility download-ddev "${source_args[@]}" --output "${ddev_bin_dir}"; then
+          # Prepend to PATH, ddev finds ddev-hostname there too
+          echo "${ddev_bin_dir}" >> "${GITHUB_PATH}"
+        elif [ "${source_args[0]}" = "--head" ]; then
+          echo "::warning::Could not download the main build, building it with Homebrew instead"
+          brew unlink ddev >/dev/null
+          brew install --HEAD ddev/ddev/ddev >/dev/null
+        else
+          exit 1
+        fi
 
     - name: Show ddev version
       shell: bash
