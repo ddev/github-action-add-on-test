@@ -11,6 +11,22 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.6.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.6.0) - 2026-09-10
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.5.0...v2.6.0)
+
+### Added
+
+- Accept `tag:<version>` and `pr:<number>` as `ddev_version` values, downloaded with `ddev utility download-ddev` ([PR #68](https://github.com/ddev/github-action-add-on-test/pull/68))
+- Print `ddev version` before the tests run ([PR #68](https://github.com/ddev/github-action-add-on-test/pull/68))
+
+### Changed
+
+- Install `ddev_version: HEAD` by downloading the latest `main` build with `ddev utility download-ddev` instead of building it from source with `brew install --HEAD`, which is much faster. If the download fails, for example when nightly.link is down, the Homebrew source build is used as a fallback ([PR #68](https://github.com/ddev/github-action-add-on-test/pull/68))
+- Download the Docker images with `ddev utility download-images`, falling back to `ddev debug download-images` for DDEV older than v1.24.9 ([PR #68](https://github.com/ddev/github-action-add-on-test/pull/68))
+
+---
+
 ## [v2.5.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.5.0) - 2026-09-01
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.4.5...v2.5.0)

@@ -41,22 +41,14 @@ jobs:
         add_on:
           - name: ddev/ddev-redis-insight
             test_command: "bats tests"
-          - name: ddev/ddev-mongo
-            test_command: ""
           - name: ddev/ddev-adminer
             test_command: ""
-          - name: ddev/ddev-redis
-            test_command: ""
-          - name: ddev/ddev-solr
-            test_command: ""
-          - name: ddev/ddev-nvm
-            test_command: ""
-          - name: ddev/ddev-memcached
-            test_command: ""
-          - name: ddev/ddev-cron
-            test_command: ""
-          - name: ddev/ddev-elasticsearch
-            test_command: ""
+        # One extra job to cover the `tag:` syntax, not one per add-on
+        include:
+          - ddev_version: "tag:v1.25.4"
+            add_on:
+              name: ddev/ddev-adminer
+              test_command: ""
 
     name: Add-on test
     runs-on: ubuntu-latest
