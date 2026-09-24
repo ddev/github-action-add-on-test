@@ -11,6 +11,16 @@ The [public API](https://semver.org/spec/v2.0.0.html#spec-item-1) of this projec
 
 ---
 
+## [v2.6.1](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.6.1) - 2026-09-24
+
+[_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.6.0...v2.6.1)
+
+### Fixed
+
+- Fix `debug_enabled: true` failing with `Failed to start upterm - socket not found after maximum retries` by bumping `owenthereal/action-upterm` to v1.16.0 ([PR #70](https://github.com/ddev/github-action-add-on-test/pull/70))
+
+---
+
 ## [v2.6.0](https://github.com/ddev/github-action-add-on-test/releases/tag/v2.6.0) - 2026-09-10
 
 [_Compare with previous release_](https://github.com/ddev/github-action-add-on-test/compare/v2.5.0...v2.6.0)
