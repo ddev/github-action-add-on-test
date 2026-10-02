@@ -51,7 +51,8 @@ runs:
       shell: bash
       run: |
         brew trust bats-core/bats-core
-        brew install bats-core bats-core/bats-core/bats-assert bats-core/bats-core/bats-file bats-core/bats-core/bats-support jq mkcert yq >/dev/null
+        # Hide Homebrew's Landlock ABI 10 warning, remove once Ubuntu runners have Linux 7.2+
+        brew install bats-core bats-core/bats-core/bats-assert bats-core/bats-core/bats-file bats-core/bats-core/bats-support jq mkcert yq >/dev/null 2> >(grep -vF 'or later is required to deny all network access' >&2)
         mkcert -install
 
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # https://github.com/actions/checkout/commits/v7.0.1/
@@ -65,7 +66,7 @@ runs:
       shell: bash
       run: |
         brew trust ddev/ddev
-        brew install ddev/ddev/ddev >/dev/null
+        brew install ddev/ddev/ddev >/dev/null 2> >(grep -vF 'or later is required to deny all network access' >&2)
 
     - name: Use ddev ${{ inputs.ddev_version }}
       shell: bash
@@ -97,7 +98,7 @@ runs:
         elif [ "${source_args[0]}" = "--head" ]; then
           echo "::warning::Could not download the main build, building it with Homebrew instead"
           brew unlink ddev >/dev/null
-          brew install --HEAD ddev/ddev/ddev >/dev/null
+          brew install --HEAD ddev/ddev/ddev >/dev/null 2> >(grep -vF 'or later is required to deny all network access' >&2)
         else
           exit 1
         fi
